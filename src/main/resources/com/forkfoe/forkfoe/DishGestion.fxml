@@ -14,3 +14,4 @@
     <Label fx:id="welcomeText"/>
     <Button text="Connect to database" onAction="#onHelloButtonClick"/>
 </VBox>
+    
