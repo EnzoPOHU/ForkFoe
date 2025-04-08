@@ -9,6 +9,6 @@ public class HelloController {
 
     @FXML
     protected void onHelloButtonClick() {
-        welcomeText.setText("Connected to " + Database.getInstance().connection);
+        welcomeText.setText("Welcome to Fork Foe!");
     }
 }
