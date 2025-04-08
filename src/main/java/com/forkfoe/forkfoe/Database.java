@@ -3,18 +3,20 @@ package com.forkfoe.forkfoe;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public final class Database {
     private static Database instance;
     public Connection connection;
 
     private Database() {
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:database.db")) {
+        try {
+            this.connection = DriverManager.getConnection("jdbc:sqlite:database.db");
             if (connection != null) {
                 System.out.println("[SQLite] Successfully connected to database") ;
                 this.connection = connection;
 
-                var table = "CREATE TABLE IF NOT EXISTS table ("
+                var restaurantTable = "CREATE TABLE IF NOT EXISTS restaurantTable ("
                         + "	id INTEGER PRIMARY KEY,"
                         + "	seat INTEGER NOT NULL,"
                         + "	number INTEGER NOT NULL"
@@ -52,14 +54,19 @@ public final class Database {
                         + " quantity INTEGER "
                         + ");";
 
-                var stmt = connection.createStatement();
-                    // create a new table
-                    stmt.execute(table);
+                try (Statement stmt = connection.createStatement()) {
+                    // Create new tables
+                    stmt.execute(restaurantTable);
                     stmt.execute(client);
                     stmt.execute(staff);
                     stmt.execute(tableOrder);
                     stmt.execute(tableDish);
                     stmt.execute(orderDish);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException("Failed to create tables: " + e.getMessage());
+                }
+
 
             }
         } catch (SQLException e) {
@@ -69,8 +76,10 @@ public final class Database {
 
     public static Database getInstance() {
         if (instance == null) {
+            System.out.println("test");
             instance = new Database();
         }
+        System.out.println("test 2");
         return instance;
     }
 }
