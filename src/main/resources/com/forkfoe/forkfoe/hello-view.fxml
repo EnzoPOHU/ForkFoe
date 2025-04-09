@@ -3,14 +3,45 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.ListView?>
+
+<?import java.lang.String?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.forkfoe.forkfoe.HelloController">
+      fx:controller="com.forkfoe.forkfoe.TableOrderController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
     <Label fx:id="welcomeText"/>
     <Button text="Connect to database" onAction="#onHelloButtonClick"/>
+
+    <VBox spacing="10" alignment="CENTER">
+        <!-- Formulaire pour saisir les détails de la commande -->
+        <TextField fx:id="billField" promptText="Montant de la commande" />
+        <ComboBox fx:id="statusComboBox">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="En attente" />
+                    <String fx:value="Servie" />
+                    <String fx:value="Payée" />
+                </FXCollections>
+            </items>
+        </ComboBox>
+        <TextField fx:id="tableIdField" promptText="Numéro de la table" />
+        <Button fx:id="createOrderButton" onAction="#onCreateOrderClick" text="Créer la commande" />
+    </VBox>
+
+    <!-- Bouton pour afficher les commandes -->
+    <Button fx:id="showOrdersButton" onAction="#onShowOrdersClick" text="Afficher les commandes" />
+
+    <!-- ListView pour afficher les commandes -->
+    <ListView fx:id="ordersListView" />
+
+    <!-- Bouton pour supprimer une commande -->
+    <Button text="Supprimer la commande" onAction="#onDeleteOrderClick" layoutX="50" layoutY="420"/>
+
 </VBox>
