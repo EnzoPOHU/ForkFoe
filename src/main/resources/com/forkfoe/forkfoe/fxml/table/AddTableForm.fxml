@@ -1,1 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.forkfoe.forkfoe.controller.table.AddTableController">
+    <Label text="Créer une nouvelle table" style="-fx-font-size: 18px; -fx-padding: 10;" />
+
+    <HBox spacing="5">
+        <Label text="Numéro de la table : " />
+        <TextField fx:id="tableNumberInput" promptText="Exemple : 1" />
+    </HBox>
+
+    <HBox spacing="5">
+        <Label text="Nombre max de places : " />
+        <TextField fx:id="maxSeatsInput" promptText="Exemple : 4" />
+    </HBox>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Enregistrer"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white;"
+                onAction="#onSaveTableClicked" />
+        <Button text="Annuler"
+                style="-fx-background-color: #F44336; -fx-text-fill: white;"
+                onAction="#onCancelClicked" />
+    </HBox>
+</VBox>
