@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.forkfoe.forkfoe.EmployeeController">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="60" spacing="20" styleClass="navbar">
+            <Button styleClass="nav-button" text="Table" />
+            <Button styleClass="nav-button" text="Plat" />
+            <Button styleClass="nav-button" text="Commande" />
+            <Button styleClass="nav-button" text="Employés" />
+        </HBox>
+    </top>
+
+    <center>
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+         <children>
+            <TableView fx:id="employeesTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="281.0">
+              <columns>
+                <TableColumn fx:id="employeesName" editable="false" prefWidth="75.0" text="Nom" />
+                <TableColumn fx:id="employeesRole" editable="false" prefWidth="75.0" text="Rôle" />
+                  <TableColumn fx:id="employeesWorkingTime" editable="false" prefWidth="75.0" text="Temps de travail" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+    </center>
+
+    <bottom>
+      <VBox>
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="Insérer un employé" textAlignment="CENTER" />
+            <TextField promptText="Nom" />
+            <TextField promptText="Rôle" />
+            <TextField promptText="Temps de travail" />
+               <Button contentDisplay="TOP" maxWidth="1.7976931348623157E308" styleClass="commander-button" text="Ajouter" />
+         </children>
+      </VBox>
+    </bottom>
+
+</BorderPane>
