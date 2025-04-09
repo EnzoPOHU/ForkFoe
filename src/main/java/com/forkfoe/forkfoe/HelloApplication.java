@@ -22,7 +22,7 @@ public class HelloApplication extends Application {
                 "id INTEGER PRIMARY KEY, " +
                 "name VARCHAR NOT NULL, " +
                 "role VARCHAR NOT NULL, " +
-                "worked_hours INTEGER NOT NULL)",
+                "worked_time INTEGER NOT NULL)",
 
         "CREATE TABLE IF NOT EXISTS tableOrder (" +
                 "id INTEGER PRIMARY KEY," +
@@ -65,7 +65,7 @@ public class HelloApplication extends Application {
         EmployeeRepository.addEmployee(walter);
 
         EmployeeRepository.getEmployees().stream().forEach(employee -> {
-            System.out.println("Added " + employee.name + ", " + employee.role + ", " + employee.workedHours + " worked hours");
+            System.out.println(employee.name + ", " + employee.role + ", " + employee.workedTime + " worked hours");
         });
 
         launch();

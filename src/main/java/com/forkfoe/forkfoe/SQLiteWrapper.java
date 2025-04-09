@@ -89,4 +89,12 @@ public final class SQLiteWrapper {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    /**
+     * Close the connection
+     * @throws SQLException
+     */
+    public static void close() throws SQLException {
+        connection.close();
+    }
 }

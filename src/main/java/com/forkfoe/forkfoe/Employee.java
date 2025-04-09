@@ -3,11 +3,11 @@ package com.forkfoe.forkfoe;
 public class Employee {
     public String name;
     public String role;
-    public Integer workedHours;
+    public Integer workedTime;
 
-    Employee(String name, String role, Integer workedHours) {
+    Employee(String name, String role, Integer workedTime) {
         this.name = name;
         this.role = role;
-        this.workedHours = workedHours;
+        this.workedTime = workedTime;
     }
 }

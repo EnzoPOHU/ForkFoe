@@ -5,7 +5,7 @@ import java.util.stream.*;
 public class EmployeeRepository {
     static { new EmployeeRepository(); }
 
-    private static List<Employee> employees = new ArrayList<>();
+    private static List<Employee> employees;
 
     private EmployeeRepository() {
         employees = fetchEmployees();
@@ -40,8 +40,8 @@ public class EmployeeRepository {
      */
     public static void addEmployee(Employee employee) {
         try {
-            SQLiteWrapper.execute("INSERT INTO employee (name, role, worked_hours) VALUES (?,?,?)",
-                    employee.name, employee.role, employee.workedHours);
+            SQLiteWrapper.execute("INSERT INTO employee (name, role, worked_time) VALUES (?,?,?)",
+                    employee.name, employee.role, employee.workedTime);
             employees.add(employee);
         } catch (Exception e) {
             System.err.println("Failed to add an employee: " + e.getMessage());
