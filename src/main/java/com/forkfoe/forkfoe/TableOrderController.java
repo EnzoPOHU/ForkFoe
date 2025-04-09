@@ -16,6 +16,8 @@ public class TableOrderController {
     @FXML
     private TextField tableIdField;
 
+    @FXML
+    private ComboBox<String> newStatusComboBox;
 
     public Button createOrderButton;
     public Button showOrdersButton;
@@ -103,6 +105,32 @@ public class TableOrderController {
         // Par exemple : "Commande #1 | Montant: 50 | Statut: En attente | Table: 3"
         String[] parts = orderInfo.split(" ");
         return Integer.parseInt(parts[1].substring(1)); // On suppose que l'ID est après "Commande #"
+    }
+
+    @FXML
+    private void onModifyStatusClick() {
+        String selectedOrder = ordersListView.getSelectionModel().getSelectedItem();
+        String newStatus = newStatusComboBox.getValue();
+
+        if (selectedOrder == null || newStatus == null || newStatus.isEmpty()) {
+            System.out.println("Veuillez sélectionner une commande et un nouveau statut.");
+            return;
+        }
+
+        try {
+            // Extraire l'ID de la commande à partir de la chaîne "Commande #X | ..."
+            int orderId = Integer.parseInt(selectedOrder.split("#")[1].split(" ")[0]);
+
+            // Mettre à jour le statut dans la base
+            TableOrderRepository.updateOrderStatus(orderId, newStatus);
+
+            // Rafraîchir la liste
+            onShowOrdersClick();
+
+            System.out.println("Statut mis à jour !");
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la mise à jour du statut : " + e.getMessage());
+        }
     }
 
 }

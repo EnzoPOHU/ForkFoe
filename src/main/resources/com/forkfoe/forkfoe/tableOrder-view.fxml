@@ -41,6 +41,17 @@
     <!-- ListView pour afficher les commandes -->
     <ListView fx:id="ordersListView" />
 
+    <ComboBox fx:id="newStatusComboBox">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="En attente" />
+                <String fx:value="Servie" />
+                <String fx:value="Payée" />
+            </FXCollections>
+        </items>
+    </ComboBox>
+    <Button text="Modifier le statut" onAction="#onModifyStatusClick" />
+
     <!-- Bouton pour supprimer une commande -->
     <Button text="Supprimer la commande" onAction="#onDeleteOrderClick" layoutX="50" layoutY="420"/>
 
