@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="10" style="-fx-background-radius: 8; -fx-background-color: light-grey; -fx-border-width: 1; -fx-border-style: solid; -fx-border-color: grey;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+
+    <padding>
+        <Insets bottom="15" left="15" right="15" top="15" />
+    </padding>
+
+    <AnchorPane prefHeight="40">
+        <Label fx:id="tableNumberLabel" layoutX="6.0" layoutY="6.0" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333; " text="Table 12" AnchorPane.leftAnchor="6.0">
+            <padding>
+                <Insets bottom="5" left="5" right="5" top="5" />
+            </padding>
+            <style>
+                -fx-background-color: #E8F0FE;
+                -fx-background-radius: 20;
+                -fx-border-color: #A8C1F0;
+                -fx-border-width: 1;
+                -fx-border-radius: 20;
+            </style>
+        </Label>
+
+
+        <Label fx:id="occupancyLabel" layoutX="106.0" layoutY="12.0" style="-fx-font-size: 12px; -fx-text-fill: #666666; -fx-background-color: #F0F0F0; -fx-background-radius: 5; -fx-padding: 3 8 3 8;" text="2/3" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="12.0" />
+    </AnchorPane>
+
+    <Label fx:id="reservationNameLabel" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #444;" text="Nom de la réservation" />
+
+    <Label fx:id="statusLabel" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: green; -fx-background-color: #E6FFE6; -fx-background-radius: 5; -fx-padding: 3 8 3 8;" text="Status de la table" />
+</VBox>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="400.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 10;">
+        <Label text="Gestion des tables">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Label>
+        <Region HBox.hgrow="ALWAYS"/>
+        <ComboBox prefHeight="25.0" prefWidth="151.0" promptText="Nettoyer une table"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS">
+        <GridPane prefWidth="600.0">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="33.33"/>
+                <ColumnConstraints percentWidth="33.33"/>
+                <ColumnConstraints percentWidth="33.33"/>
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints percentHeight="33.33"/>
+                <RowConstraints percentHeight="33.33"/>
+                <RowConstraints percentHeight="33.33"/>
+            </rowConstraints>
+
+            <fx:include source="TableCard.fxml" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <fx:include source="TableCard.fxml" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <fx:include source="TableCard.fxml" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+            <fx:include source="TableCard.fxml" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <fx:include source="TableCard.fxml" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <fx:include source="TableCard.fxml" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+            <fx:include source="TableCard.fxml" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <fx:include source="TableCard.fxml" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <fx:include source="TableCard.fxml" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        </GridPane>
+    </ScrollPane>
+</VBox>
