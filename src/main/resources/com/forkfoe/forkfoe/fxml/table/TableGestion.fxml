@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            style="-fx-background-color: #F7F9FB; -fx-padding: 20;">
+
+    <top>
+        <HBox spacing="20" style="-fx-padding: 10; -fx-alignment: CENTER_LEFT;">
+            <Label text="Gestion des tables"
+                   style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #333;" />
+
+            <Pane HBox.hgrow="ALWAYS" />
+
+            <Button fx:id="addTableButton"
+                    text="➕ Ajouter une table"
+                    style="-fx-font-size: 16px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20 10 20;"
+                     />
+
+            <Button fx:id="releaseTableButton"
+                    text=" ✨ Libérer une table"
+                    style="-fx-font-size: 16px; -fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20 10 20;" />
+        </HBox>
+    </top>
+
+    <center>
+        <GridPane fx:id="tableContainer"
+                  alignment="TOP_CENTER"
+                  hgap="20" vgap="20">
+
+            <VBox fx:id="tablesList"
+                  GridPane.rowIndex="1" GridPane.columnIndex="0"
+                  GridPane.columnSpan="2"
+                  alignment="TOP_CENTER"
+                  style="-fx-border-color: #DDDDDD; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8;"
+                  prefHeight="400" prefWidth="800">
+                <Label text="Aucune table disponible pour le moment"
+                       style="-fx-font-size: 14px; -fx-text-fill: #888;" />
+            </VBox>
+
+        </GridPane>
+    </center>
+
+</BorderPane>

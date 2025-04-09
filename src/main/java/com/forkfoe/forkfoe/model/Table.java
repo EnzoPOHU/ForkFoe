@@ -40,4 +40,9 @@ public class Table {
     public String toString() {
         return "Table " + number;
     }
+
+    public void cleanTable() {
+        this.reservationName = "Vacante";
+    }
 }
+
