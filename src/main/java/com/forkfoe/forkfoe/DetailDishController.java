@@ -25,8 +25,8 @@ public class DetailDishController {
     @FXML
     private Button backButton;
 
-    /*
-    show in detail the dish
+    /**
+     * Show in detail the dish
      */
     public void setDish(Dish dish) {
         nameLabel.setText(dish.name);
@@ -38,8 +38,8 @@ public class DetailDishController {
         }
     }
 
-    /*
-    quit popup detail of dish
+    /**
+     * Quit popup detail of dish
      */
     @FXML
     public void closeWindow() {

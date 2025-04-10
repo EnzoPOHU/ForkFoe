@@ -19,8 +19,8 @@ public class AddDishController {
 
     private File imageFile;
 
-    /*
-    Select an image in your computer
+    /**
+     * Select an image in your computer
      */
     @FXML
     public void chooseImage() {
@@ -34,8 +34,8 @@ public class AddDishController {
         }
     }
 
-    /*
-    Push in database new dish
+    /**
+     * Push in database new dish
      */
     @FXML
     public void submitDish() {
@@ -74,8 +74,8 @@ public class AddDishController {
         }
     }
 
-    /*
-    quit popup new dish
+    /**
+     * Quit popup new dish
      */
     @FXML
     public void cancel() {

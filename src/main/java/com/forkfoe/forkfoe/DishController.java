@@ -21,9 +21,6 @@ public class DishController {
     private final List<Dish> dishes = DishRepository.getDish();
 
     @FXML
-    /*
-    show dish in database
-     */
     public void initialize() {
         for (Dish dish : dishes) {
             addDishToView(dish);
@@ -56,8 +53,8 @@ public class DishController {
         confirmation.showAndWait();
     }
 
-    /*
-    open popup add new dish
+    /**
+     * Open popup add new dish
      */
     @FXML
     private void openAddDishPopup() {
@@ -79,8 +76,8 @@ public class DishController {
         }
     }
 
-    /*
-    refresh main page to show new dish
+    /**
+     * Refresh main page to show new dish
      */
     @FXML
     public void refreshDishList() {
@@ -93,8 +90,8 @@ public class DishController {
         }
     }
 
-    /*
-    popup with all input to create new dish
+    /**
+     * Popup with all input to create new dish
      */
     private void addDishToView(Dish dish) {
         CheckBox checkBox = new CheckBox(dish.name);
@@ -136,8 +133,8 @@ public class DishController {
         dishMap.put(checkBox, spinner);
     }
 
-    /*
-    popup to show detail of one dish
+    /**
+     * Popup to show detail of one dish
      */
     private void openDetailPopup(Dish dish) {
         try {

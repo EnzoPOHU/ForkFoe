@@ -45,7 +45,6 @@
                     "quantity INTEGER)",
         };
 
-
         @Override
         public void start(Stage stage) throws IOException {
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/forkfoe/forkfoe/DishView.fxml"));

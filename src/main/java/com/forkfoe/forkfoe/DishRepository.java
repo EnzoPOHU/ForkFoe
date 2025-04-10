@@ -13,15 +13,12 @@ public class DishRepository {
         dishs = fetchDishs();
     }
 
-    /*
-    static list for get only once dishs
-     */
     public static List<Dish> getDish() {
         return dishs;
     }
 
-    /*
-    get all dishs in database
+    /**
+     * Fetch all dishes from the database
      */
     public static List<Dish> fetchDishs() {
         try {
@@ -43,7 +40,7 @@ public class DishRepository {
     }
 
     /*
-    method to create a dish
+     * Add a dish
      */
     public static void addDish(Dish dish) {
         try {
@@ -61,7 +58,7 @@ public class DishRepository {
     }
 
     /*
-    method to remove one dish with the name
+     * Remove an existing dish
      */
     public static void removeDish(Dish dish) {
         try {
