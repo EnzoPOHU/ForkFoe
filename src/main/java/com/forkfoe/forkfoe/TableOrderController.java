@@ -1,21 +1,31 @@
 package com.forkfoe.forkfoe;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
 import java.util.List;
 
 public class TableOrderController {
 
     @FXML
-    private ListView<String> ordersListView;
+    private TableView<TableOrder> ordersTableView;
+
+    @FXML
+    private TableColumn<TableOrder, Integer> idColumn;
+    @FXML
+    private TableColumn<TableOrder, Integer> billColumn;
+    @FXML
+    private TableColumn<TableOrder, String> statusColumn;
+    @FXML
+    private TableColumn<TableOrder, Integer> tableIdColumn;
+
     @FXML
     private TextField billField;
     @FXML
     private ComboBox<String> statusComboBox;
     @FXML
     private TextField tableIdField;
-
     @FXML
     private ComboBox<String> newStatusComboBox;
 
@@ -23,23 +33,19 @@ public class TableOrderController {
     public Button showOrdersButton;
 
     @FXML
-    private void onShowOrdersClick() {
-
-        // Vider la ListView actuelle
-        ordersListView.getItems().clear();
-
-        List<TableOrder> orders = TableOrderRepository.fetchOrders();
-
-        // Ajouter chaque commande directement dans la ListView
-        for (TableOrder order : orders) {
-            String orderInfo = "Commande #" + order.getId() +
-                    " | Montant: " + order.getBill() +
-                    " | Statut: " + order.getStatus() +
-                    " | Table: " + order.getTableId();
-            ordersListView.getItems().add(orderInfo);
-        }
+    private void initialize() {
+        idColumn.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getId()).asObject());
+        billColumn.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getBill()).asObject());
+        statusColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getStatus()));
+        tableIdColumn.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getTableId()).asObject());
     }
 
+    @FXML
+    private void onShowOrdersClick() {
+        ordersTableView.getItems().clear();
+        List<TableOrder> orders = TableOrderRepository.fetchOrders();
+        ordersTableView.getItems().addAll(orders);
+    }
 
     @FXML
     private void onCreateOrderClick() {
@@ -48,11 +54,7 @@ public class TableOrderController {
             String status = statusComboBox.getValue();
             int tableId = Integer.parseInt(tableIdField.getText());
 
-            List<TableOrder> orders = TableOrderRepository.getOrders();
-
-
             TableOrder newOrder = new TableOrder(bill, status, tableId);
-
             TableOrderRepository.addOrder(newOrder);
 
             billField.clear();
@@ -67,29 +69,16 @@ public class TableOrderController {
 
     @FXML
     private void onDeleteOrderClick() {
-        // Récupérer la commande sélectionnée dans la ListView
-        String selectedOrderInfo = ordersListView.getSelectionModel().getSelectedItem();
-        if (selectedOrderInfo != null) {
-            // Extraire l'ID de la commande à partir du texte de la commande (tu devras probablement adapter cela)
-            int orderId = extractOrderId(selectedOrderInfo);
-
-            // Supprimer la commande de la base de données
-            TableOrderRepository.deleteOrderById(orderId);
-
-            // Supprimer la commande de la ListView
-            ordersListView.getItems().remove(selectedOrderInfo);
-            //onShowOrdersClick();
+        TableOrder selectedOrder = ordersTableView.getSelectionModel().getSelectedItem();
+        if (selectedOrder != null) {
+            TableOrderRepository.deleteOrderById(selectedOrder.getId());
+            ordersTableView.getItems().remove(selectedOrder);
         }
-    }
-
-    private int extractOrderId(String orderInfo) {
-        String[] parts = orderInfo.split(" ");
-        return Integer.parseInt(parts[1].substring(1)); // On suppose que l'ID est après "Commande #"
     }
 
     @FXML
     private void onModifyStatusClick() {
-        String selectedOrder = ordersListView.getSelectionModel().getSelectedItem();
+        TableOrder selectedOrder = ordersTableView.getSelectionModel().getSelectedItem();
         String newStatus = newStatusComboBox.getValue();
 
         if (selectedOrder == null || newStatus == null || newStatus.isEmpty()) {
@@ -98,17 +87,10 @@ public class TableOrderController {
         }
 
         try {
-            int orderId = Integer.parseInt(selectedOrder.split("#")[1].split(" ")[0]);
-
-            // Mettre à jour le statut dans la base
-            TableOrderRepository.updateOrderStatus(orderId, newStatus);
-
-            // Rafraîchir la liste
+            TableOrderRepository.updateOrderStatus(selectedOrder.getId(), newStatus);
             onShowOrdersClick();
-
         } catch (Exception e) {
             System.err.println("Erreur lors de la mise à jour du statut : " + e.getMessage());
         }
     }
-
 }
