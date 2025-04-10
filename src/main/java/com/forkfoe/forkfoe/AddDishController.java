@@ -45,34 +45,35 @@ public class AddDishController {
             }
 
             if (imageFile != null) {
-                File destDir = new File("assets");
+                File destDir = new File("data");
                 if (!destDir.exists()) destDir.mkdirs();
 
                 File destFile = new File(destDir, imageFile.getName());
                 Files.copy(imageFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-                Image image = new Image(destFile.toURI().toString());
+                // Création du plat en passant le chemin de l'image (pas l'objet Image)
+                Dish newDish = new Dish(name, description, price, destFile.getName());
 
-                Dish newDish = new Dish(name, description, price, image);
-                newDish.setImagePath(imageFile.getName());
-
+                // Ajouter le plat dans la base de données
                 DishRepository.addDish(newDish);
+
+                // Message de confirmation
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Plat ajouté avec succès !");
+                alert.showAndWait();
+
+                // Fermer la fenêtre après l'ajout
+                ((Stage) nameField.getScene().getWindow()).close();
             } else {
                 throw new IllegalArgumentException("Veuillez choisir une image.");
             }
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Plat ajouté avec succès !");
-            alert.showAndWait();
-
-            ((Stage) nameField.getScene().getWindow()).close();
-
         } catch (Exception e) {
+            // Gestion des erreurs
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ajout du plat : " + e.getMessage());
             alert.showAndWait();
             e.printStackTrace();
         }
     }
-
 
     @FXML
     public void cancel() {

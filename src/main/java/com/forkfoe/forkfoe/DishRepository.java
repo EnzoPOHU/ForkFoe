@@ -26,22 +26,7 @@ public class DishRepository {
                         int price = (Integer) row[3];
                         String imgPath = (String) row[4];
 
-                        Image image = null;
-                        if (imgPath != null && !imgPath.isEmpty()) {
-                            try {
-                                File imageFile = new File("assets/" + new File(imgPath).getName());
-                                if (imageFile.exists()) {
-                                    image = new Image(imageFile.toURI().toString(), true);
-                                } else {
-                                    System.err.println("L'image n'a pas été trouvée dans le dossier assets : '" + imageFile.getPath() + "'");
-                                }
-                            } catch (Exception e) {
-                                System.err.println("Exception lors du chargement de l'image : " + e.getMessage());
-                            }
-                        }
-
-                        Dish dish = new Dish(name, description, price, image);
-                        dish.setImagePath(imgPath);
+                        Dish dish = new Dish(name, description, price, imgPath);
                         return dish;
                     })
                     .collect(Collectors.toList());

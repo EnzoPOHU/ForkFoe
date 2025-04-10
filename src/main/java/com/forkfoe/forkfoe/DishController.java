@@ -6,11 +6,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ControllerDish {
+public class DishController {
 
     @FXML
     private VBox dishContainer;
@@ -22,25 +23,7 @@ public class ControllerDish {
     @FXML
     public void initialize() {
         for (Dish dish : dishes) {
-            CheckBox checkBox = new CheckBox(dish.name);
-            Button viewButton = new Button("Détail");
-            Button delButton = new Button("Supprimer");
-            delButton.getStyleClass().add("button-delete");
-            Spinner<Integer> spinner = new Spinner<>();
-            spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
-            spinner.setDisable(true);
-
-            checkBox.setOnAction(e -> spinner.setDisable(!checkBox.isSelected()));
-            viewButton.setOnAction(e -> openDetailPopup(dish));
-            delButton.setOnAction(e -> {
-                DishRepository.removeDish(dish);
-                dishContainer.getChildren().removeIf(node -> ((HBox) node).getChildren().contains(delButton));
-            });
-
-            HBox dishRow = new HBox(10, checkBox, spinner, viewButton, delButton);
-            dishContainer.getChildren().add(dishRow);
-
-            dishMap.put(checkBox, spinner);
+            addDishToView(dish);
         }
     }
 
@@ -97,19 +80,50 @@ public class ControllerDish {
         List<Dish> updatedDishes = DishRepository.getDish();
 
         for (Dish dish : updatedDishes) {
-            CheckBox checkBox = new CheckBox(dish.name);
-            Spinner<Integer> spinner = new Spinner<>();
-            spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
-            spinner.setDisable(true);
-
-            checkBox.setOnAction(e -> spinner.setDisable(!checkBox.isSelected()));
-
-            HBox dishRow = new HBox(10, checkBox, spinner);
-            dishContainer.getChildren().add(dishRow);
-
-            dishMap.put(checkBox, spinner);
+            addDishToView(dish);
         }
     }
+
+    private void addDishToView(Dish dish) {
+        CheckBox checkBox = new CheckBox(dish.name);
+        Button viewButton = new Button("Détail");
+        Button delButton = new Button("Supprimer");
+        delButton.getStyleClass().add("button-delete");
+        Spinner<Integer> spinner = new Spinner<>();
+        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
+        spinner.setDisable(true);
+
+        checkBox.setOnAction(e -> spinner.setDisable(!checkBox.isSelected()));
+
+        viewButton.setOnAction(e -> openDetailPopup(dish));
+
+        delButton.setOnAction(e -> {
+            String imgPath = dish.getImagePath();
+            if (imgPath != null && !imgPath.isEmpty()) {
+                try {
+                    File imageFile = new File("data/" + new File(imgPath).getName());
+                    if (imageFile.exists()) {
+                        boolean deleted = imageFile.delete();
+                        if (!deleted) {
+                            System.err.println("Impossible de supprimer l'image : " + imageFile.getPath());
+                        }
+                    }
+                } catch (Exception ex) {
+                    System.err.println("Erreur lors de la suppression de l'image : " + ex.getMessage());
+                }
+            }
+
+            DishRepository.removeDish(dish);
+
+            dishContainer.getChildren().removeIf(node -> ((HBox) node).getChildren().contains(delButton));
+        });
+
+        HBox dishRow = new HBox(10, checkBox, spinner, viewButton, delButton);
+        dishContainer.getChildren().add(dishRow);
+
+        dishMap.put(checkBox, spinner);
+    }
+
     private void openDetailPopup(Dish dish) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/DetailDish.fxml"));
@@ -128,5 +142,4 @@ public class ControllerDish {
             alert.showAndWait();
         }
     }
-
 }

@@ -6,7 +6,7 @@
 <?import javafx.geometry.Insets?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.forkfoe.forkfoe.ControllerDish">
+            fx:controller="com.forkfoe.forkfoe.DishController">
 
     <top>
         <HBox spacing="20" alignment="CENTER_LEFT" prefHeight="60" styleClass="navbar">
