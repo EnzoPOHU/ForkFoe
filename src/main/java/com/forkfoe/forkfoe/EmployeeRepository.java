@@ -26,7 +26,7 @@ public class EmployeeRepository {
     public static List<Employee> fetchEmployees() {
         try {
             employees = SQLiteWrapper.execute("SELECT * FROM employee").stream()
-                    .map(row -> new Employee((String) row[1], (String) row[2], (Integer) row[3]))
+                    .map(row -> new Employee((Integer) row[0], (String) row[1], (String) row[2], (Integer) row[3]))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             System.err.println("Failed to fetch employees from database: " + e.getMessage());
@@ -41,7 +41,8 @@ public class EmployeeRepository {
     public static void addEmployee(Employee employee) {
         try {
             SQLiteWrapper.execute("INSERT INTO employee (name, role, worked_time) VALUES (?,?,?)",
-                    employee.name, employee.role, employee.workedTime);
+                    employee.getName(), employee.getRole(), employee.getWorkingTime());
+            employee.setId((Integer)SQLiteWrapper.execute("SELECT id FROM employee ORDER BY id DESC LIMIT 1").getFirst()[0]);
             employees.add(employee);
         } catch (Exception e) {
             System.err.println("Failed to add an employee: " + e.getMessage());
@@ -54,8 +55,10 @@ public class EmployeeRepository {
      */
     public static void removeEmployee(Employee employee) {
         try {
-            SQLiteWrapper.execute("DELETE FROM employee WHERE name = ?", employee.name);
-            employees.remove(employee);
+            if (!employees.removeIf(e -> e.getId().equals(employee.getId()))) {
+                throw new Exception("Couldn't find " + employee.getName());
+            }
+            SQLiteWrapper.execute("DELETE FROM employee WHERE id = ?", employee.getId());
         } catch (Exception e) {
             System.err.println("Failed to remove an employee: " + e.getMessage());
         }

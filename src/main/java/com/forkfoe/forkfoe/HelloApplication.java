@@ -42,32 +42,18 @@ public class HelloApplication extends Application {
                 "quantity INTEGER)",
     };
 
-
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/forkfoe/forkfoe/fxml/table/TableGestion.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
-        stage.setTitle("Hello!");
-            stage.setScene(scene);
-            stage.show();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("EmployeeView.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        stage.setTitle("ForkFoe");
+        stage.setMaximized(true);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public static void main(String[] args) {
         SQLiteWrapper.executeBatch(initQueries);
-
-        Employee john = new Employee("John", "Server", 6);
-        Employee walter = new Employee("Walter", "Cleaner", 12);
-
-        EmployeeRepository.removeEmployee(john);
-        EmployeeRepository.removeEmployee(walter);
-
-        EmployeeRepository.addEmployee(john);
-        EmployeeRepository.addEmployee(walter);
-
-        EmployeeRepository.getEmployees().stream().forEach(employee -> {
-            System.out.println(employee.name + ", " + employee.role + ", " + employee.workedTime + " worked hours");
-        });
-
         launch();
     }
 }
