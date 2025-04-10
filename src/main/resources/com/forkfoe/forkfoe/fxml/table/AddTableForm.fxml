@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20" alignment="CENTER"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.forkfoe.forkfoe.controller.table.AddTableController"
+      style="-fx-padding: 20;">
+
+    <Label text="Créer une nouvelle table" style="-fx-font-size: 22px; -fx-padding: 20;" />
+
+    <HBox spacing="20" alignment="CENTER_LEFT">
+        <Label text="Numéro de la table : "
+               style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+        <TextField fx:id="tableNumberInput"
+                   promptText="Ex : 1"
+                   style="-fx-pref-width: 250px; -fx-font-size: 14px; -fx-padding: 5 8;" />
+    </HBox>
+
+    <HBox spacing="20" alignment="CENTER_LEFT">
+        <Label text="Nombre max de places : "
+               style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+        <Spinner fx:id="maxSeatsInput"
+                 style="-fx-pref-width: 150px; -fx-font-size: 14px; -fx-padding: 5;"
+                 editable="true" />
+    </HBox>
+
+    <HBox spacing="30" alignment="CENTER" style="-fx-padding: 20;">
+        <Button text="Enregistrer"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-pref-width: 120px;"
+                onAction="#onSaveTableClicked" />
+        <Button text="Annuler"
+                style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-size: 14px; -fx-pref-width: 120px;"
+                onAction="#onCancelClicked" />
+    </HBox>
+</VBox>
