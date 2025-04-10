@@ -1,11 +1,12 @@
 package com.forkfoe.forkfoe.controller.table;
 
+import com.forkfoe.forkfoe.model.Table;
+import com.forkfoe.forkfoe.repository.TableRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import com.forkfoe.forkfoe.SQLiteWrapper;
 
 public class EditTableController {
 
@@ -41,8 +42,8 @@ public class EditTableController {
         int updatedMaxSeats = maxSeatsInput.getValue();
         String updatedReservation = reservationNameInput.getText();
 
-        String query = "UPDATE restaurantTable SET number = ?, seat = ?, reservationName = ? WHERE number = ?;";
-        SQLiteWrapper.execute(query, updatedTableNumber, updatedMaxSeats, updatedReservation, originalTableNumber);
+        Table updatedTable = new Table(updatedTableNumber, updatedMaxSeats, updatedReservation);
+        TableRepository.updateTable(updatedTable, originalTableNumber);
 
         closeWindow();
     }

@@ -1,11 +1,12 @@
 package com.forkfoe.forkfoe.controller.table;
 
+import com.forkfoe.forkfoe.model.Table;
+import com.forkfoe.forkfoe.repository.TableRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import com.forkfoe.forkfoe.SQLiteWrapper;
 
 public class AddTableController {
 
@@ -40,20 +41,20 @@ public class AddTableController {
 
         int tableNum = Integer.parseInt(tableNumber);
 
-        SQLiteWrapper.insertTable(tableNum, maxSeats);
+        Table newTable = new Table(tableNum, maxSeats, "Aucune réservation");
+        TableRepository.addTable(newTable);
 
-        tableGestionController.addTableCard(tableNumber, maxSeats, "Aucune réservation");
+        tableGestionController.addTableCard(String.valueOf(newTable.getNumber()), maxSeats, "Aucune réservation");
+        closeWindow();
+    }
 
+    @FXML
+    public void onCancelClicked() {
         closeWindow();
     }
 
     private void closeWindow() {
         Stage stage = (Stage) tableNumberInput.getScene().getWindow();
         stage.close();
-    }
-
-    @FXML
-    public void onCancelClicked() {
-        closeWindow();
     }
 }
