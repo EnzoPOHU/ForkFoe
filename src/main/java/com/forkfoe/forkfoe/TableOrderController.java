@@ -48,26 +48,6 @@ public class TableOrderController {
     }
 
     @FXML
-    private void onCreateOrderClick() {
-        try {
-            int bill = Integer.parseInt(billField.getText());
-            String status = statusComboBox.getValue();
-            int tableId = Integer.parseInt(tableIdField.getText());
-
-            TableOrder newOrder = new TableOrder(bill, status, tableId);
-            TableOrderRepository.addOrder(newOrder);
-
-            billField.clear();
-            statusComboBox.getSelectionModel().clearSelection();
-            tableIdField.clear();
-            onShowOrdersClick();
-
-        } catch (NumberFormatException e) {
-            System.err.println("Erreur : Veuillez entrer des valeurs valides.");
-        }
-    }
-
-    @FXML
     private void onDeleteOrderClick() {
         TableOrder selectedOrder = ordersTableView.getSelectionModel().getSelectedItem();
         if (selectedOrder != null) {

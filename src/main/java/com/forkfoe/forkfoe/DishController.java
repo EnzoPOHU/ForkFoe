@@ -30,14 +30,30 @@ public class DishController {
     @FXML
     private void validCommand() {
         StringBuilder commande = new StringBuilder("Commande envoyée :\n");
-
+        int bill = 0;
         for (Map.Entry<CheckBox, Spinner<Integer>> entry : dishMap.entrySet()) {
             CheckBox cb = entry.getKey();
             Spinner<Integer> spinner = entry.getValue();
 
             if (cb.isSelected() && spinner.getValue() > 0) {
-                commande.append("- ").append(cb.getText())
-                        .append(" x").append(spinner.getValue()).append("\n");
+                int quantity = spinner.getValue();
+                String dishName = cb.getText();
+
+                // Recherche du plat correspondant par son nom
+                Dish selectedDish = dishes.stream()
+                        .filter(d -> d.name.equals(dishName))
+                        .findFirst()
+                        .orElse(null);
+
+                if (selectedDish != null) {
+                    int price = selectedDish.getPrice();
+                    bill += price * quantity;
+
+                    commande.append("- ")
+                            .append(dishName)
+                            .append(" x").append(quantity)
+                            .append(" (").append(price).append("€)").append("\n");
+                }
             }
         }
 
@@ -48,7 +64,8 @@ public class DishController {
         }
 
         System.out.println(commande.toString());
-
+        int table = 1;
+        onCreateOrderClick(bill, table);
         Alert confirmation = new Alert(Alert.AlertType.INFORMATION, "Commande validée !");
         confirmation.showAndWait();
     }
@@ -152,6 +169,19 @@ public class DishController {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors de l'affichage des détails : " + e.getMessage());
             alert.showAndWait();
+        }
+    }
+
+
+    private void onCreateOrderClick(int bill, int tableId) {
+        try {
+            String status = "en cours";
+            TableOrder newOrder = new TableOrder(bill, status, tableId);
+            TableOrderRepository.addOrder(newOrder);
+
+
+        } catch (NumberFormatException e) {
+            System.err.println("Erreur : Veuillez entrer des valeurs valides.");
         }
     }
 }
