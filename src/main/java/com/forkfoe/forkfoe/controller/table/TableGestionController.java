@@ -1,5 +1,6 @@
 package com.forkfoe.forkfoe.controller.table;
 
+import com.forkfoe.forkfoe.SQLiteWrapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -7,8 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.util.List;
 
-import java.util.Objects;
+
 
 public class TableGestionController {
 
@@ -19,11 +21,10 @@ public class TableGestionController {
     private Label noTableLabel;
 
     /**
-     * Ajouter une carte de table dans l'interface.
      *
-     * @param tableNumber     Numéro de la table
-     * @param maxSeats        Nombre de sièges maximum
-     * @param reservationName Nom de la réservation (ou NULL si aucune réservation)
+     * @param tableNumber
+     * @param maxSeats
+     * @param reservationName
      */
 
     public void addTableCard(String tableNumber, int maxSeats, String reservationName) {
@@ -71,6 +72,19 @@ public class TableGestionController {
 
     @FXML
     public void initialize() {
+        loadTablesFromDatabase();
         updateNoTableLabelVisibility();
     }
+
+    private void loadTablesFromDatabase() {
+        String query = "SELECT number, seat FROM restaurantTable;";
+        List<Object[]> tables = SQLiteWrapper.execute(query);
+
+        for (Object[] row : tables) {
+            int number = (int) row[0];
+            int maxSeats = (int) row[1];
+            addTableCard(String.valueOf(number), maxSeats, ""); // "Aucune réservation" par défaut
+        }
+    }
+
 }

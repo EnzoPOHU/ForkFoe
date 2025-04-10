@@ -20,6 +20,15 @@ public final class SQLiteWrapper {
     }
 
     /**
+     * @param number
+     * @param maxSeats
+     */
+    public static void insertTable(int number, int maxSeats) {
+        String query = "INSERT INTO restaurantTable (number, seat) VALUES (?, ?);";
+        SQLiteWrapper.execute(query, number, maxSeats);
+    }
+
+    /**
      * Executes a batch of result less SQLite queries.
      * @param queries
      */

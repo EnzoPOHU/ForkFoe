@@ -5,6 +5,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import com.forkfoe.forkfoe.SQLiteWrapper;
 
 public class AddTableController {
 
@@ -37,7 +38,11 @@ public class AddTableController {
             return;
         }
 
+        int tableNum = Integer.parseInt(tableNumber);
+        SQLiteWrapper.insertTable(tableNum, maxSeats);
+
         tableGestionController.addTableCard(tableNumber, maxSeats, "");
+
         closeWindow();
     }
 
