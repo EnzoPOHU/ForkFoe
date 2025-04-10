@@ -1,5 +1,7 @@
-package com.forkfoe.forkfoe;
+package com.forkfoe.forkfoe.controller;
 
+import com.forkfoe.forkfoe.repository.TableOrderRepository;
+import com.forkfoe.forkfoe.model.TableOrder;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;

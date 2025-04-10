@@ -39,6 +39,6 @@ build/
 
 ### Custom ###
 database.db
-
+/data/
 .idea/dataSources.xml
 .idea/uiDesigner.xml

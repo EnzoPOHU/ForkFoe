@@ -1,5 +1,6 @@
 package com.forkfoe.forkfoe;
 
+import com.forkfoe.forkfoe.util.SQLiteWrapper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -7,12 +8,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class ForkFoeApplication extends Application {
     private static final String []initQueries = {
         "CREATE TABLE IF NOT EXISTS restaurantTable (" +
                 "id INTEGER PRIMARY KEY, " +
                 "seat INTEGER NOT NULL," +
-                "number INTEGER NOT NULL)",
+                "number INTEGER NOT NULL," +
+                "reservationName VARCHAR NOT NULL)",
 
         "CREATE TABLE IF NOT EXISTS client (" +
                 "id INTEGER PRIMARY KEY, " +
@@ -26,8 +28,9 @@ public class HelloApplication extends Application {
 
         "CREATE TABLE IF NOT EXISTS tableOrder (" +
                 "id INTEGER PRIMARY KEY," +
-                "bill INTEGER," +
-                "status VARCHAR)",
+                "bill INTEGER NOT NULL," +
+                "status VARCHAR NOT NULL," +
+                "table_id INTEGER NOT NULL)",
 
         "CREATE TABLE IF NOT EXISTS tableDish (" +
                 "id INTEGER PRIMARY KEY, " +
@@ -44,7 +47,7 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("EmployeeView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ForkFoeApplication.class.getResource("/com/forkfoe/forkfoe/fxml/MainView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("ForkFoe");
         stage.setMaximized(true);

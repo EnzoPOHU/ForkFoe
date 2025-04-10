@@ -1,5 +1,6 @@
-package com.forkfoe.forkfoe;
+package com.forkfoe.forkfoe.controller;
 
+import com.forkfoe.forkfoe.model.Dish;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

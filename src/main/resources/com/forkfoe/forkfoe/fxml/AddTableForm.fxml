@@ -4,7 +4,7 @@
 
 <VBox spacing="20" alignment="CENTER"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.forkfoe.forkfoe.controller.table.AddTableController"
+      fx:controller="com.forkfoe.forkfoe.controller.AddTableController"
       style="-fx-padding: 20;">
 
     <Label text="Créer une nouvelle table" style="-fx-font-size: 22px; -fx-padding: 20;" />
@@ -13,6 +13,7 @@
         <Label text="Numéro de la table : "
                style="-fx-font-size: 16px; -fx-font-weight: bold;" />
         <TextField fx:id="tableNumberInput"
+                   onKeyTyped="#onTypingTableNumber"
                    promptText="Ex : 1"
                    style="-fx-pref-width: 250px; -fx-font-size: 14px; -fx-padding: 5 8;" />
     </HBox>

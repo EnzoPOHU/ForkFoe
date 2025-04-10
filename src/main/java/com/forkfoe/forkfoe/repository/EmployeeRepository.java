@@ -1,4 +1,7 @@
-package com.forkfoe.forkfoe;
+package com.forkfoe.forkfoe.repository;
+import com.forkfoe.forkfoe.util.SQLiteWrapper;
+import com.forkfoe.forkfoe.model.Employee;
+
 import java.util.*;
 import java.util.stream.*;
 

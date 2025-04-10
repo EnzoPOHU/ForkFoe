@@ -1,4 +1,4 @@
-package com.forkfoe.forkfoe.controller.table;
+package com.forkfoe.forkfoe.controller;
 
 import com.forkfoe.forkfoe.model.Table;
 import com.forkfoe.forkfoe.repository.TableRepository;
@@ -21,9 +21,9 @@ public class EditTableController {
     private TextField reservationNameInput;
 
     private int originalTableNumber;
-    private TableGestionController parentController;
+    private TableManagerController parentController;
 
-    public void setParentController(TableGestionController controller) {
+    public void setParentController(TableManagerController controller) {
         this.parentController = controller;
         System.out.println("ParentController défini : " + (parentController != null));
     }

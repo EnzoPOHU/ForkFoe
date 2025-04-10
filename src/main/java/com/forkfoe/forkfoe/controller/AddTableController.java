@@ -1,4 +1,4 @@
-package com.forkfoe.forkfoe.controller.table;
+package com.forkfoe.forkfoe.controller;
 
 import com.forkfoe.forkfoe.model.Table;
 import com.forkfoe.forkfoe.repository.TableRepository;
@@ -17,9 +17,9 @@ public class AddTableController {
     @FXML
     private Spinner<Integer> maxSeatsInput;
 
-    private TableGestionController tableGestionController;
+    private TableManagerController tableGestionController;
 
-    public void setTableGestionController(TableGestionController controller) {
+    public void setTableGestionController(TableManagerController controller) {
         this.tableGestionController = controller;
     }
 
@@ -43,9 +43,7 @@ public class AddTableController {
             return;
         }
 
-        int tableNum = Integer.parseInt(tableNumber);
-
-        Table newTable = new Table(tableNum, maxSeats, "Aucune réservation");
+        Table newTable = new Table(Integer.parseInt(tableNumber), maxSeats, "Aucune réservation");
         TableRepository.addTable(newTable);
 
         tableGestionController.addTableCard(String.valueOf(newTable.number()), maxSeats, "Aucune réservation");
@@ -60,5 +58,14 @@ public class AddTableController {
     private void closeWindow() {
         Stage stage = (Stage) tableNumberInput.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    protected void onTypingTableNumber() {
+        try {
+            Integer.parseInt(tableNumberInput.getText());
+        } catch (NumberFormatException e) {
+            tableNumberInput.clear();
+        }
     }
 }

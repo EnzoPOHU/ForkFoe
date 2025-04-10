@@ -1,5 +1,7 @@
-package com.forkfoe.forkfoe;
+package com.forkfoe.forkfoe.controller;
 
+import com.forkfoe.forkfoe.repository.EmployeeRepository;
+import com.forkfoe.forkfoe.model.Employee;
 import javafx.fxml.FXML;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

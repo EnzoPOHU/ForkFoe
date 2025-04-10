@@ -1,4 +1,4 @@
-package com.forkfoe.forkfoe;
+package com.forkfoe.forkfoe.model;
 
 public class TableOrder {
     private Integer id;

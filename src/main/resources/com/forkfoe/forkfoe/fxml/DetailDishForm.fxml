@@ -9,7 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.geometry.Insets?>
 <DialogPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.forkfoe.forkfoe.DetailDishController">
+            fx:controller="com.forkfoe.forkfoe.controller.DetailDishController">
 
     <content>
         <VBox spacing="10">

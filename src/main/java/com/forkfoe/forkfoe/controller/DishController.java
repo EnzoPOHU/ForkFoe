@@ -1,5 +1,9 @@
-package com.forkfoe.forkfoe;
+package com.forkfoe.forkfoe.controller;
 
+import com.forkfoe.forkfoe.model.Dish;
+import com.forkfoe.forkfoe.repository.DishRepository;
+import com.forkfoe.forkfoe.model.TableOrder;
+import com.forkfoe.forkfoe.repository.TableOrderRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -70,7 +74,7 @@ public class DishController {
     @FXML
     private void openAddDishPopup() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/AddDishForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/fxml/AddDishForm.fxml"));
             VBox content = loader.load();
 
             Dialog<ButtonType> dialog = new Dialog<>();
@@ -149,7 +153,7 @@ public class DishController {
      */
     private void openDetailPopup(Dish dish) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/DetailDish.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/fxml/DetailDishForm.fxml"));
             DialogPane pane = loader.load();
 
             DetailDishController controller = loader.getController();

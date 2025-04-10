@@ -1,4 +1,4 @@
-package com.forkfoe.forkfoe.controller.table;
+package com.forkfoe.forkfoe.controller;
 
 import com.forkfoe.forkfoe.model.Table;
 import com.forkfoe.forkfoe.repository.TableRepository;
@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.List;
 
-public class TableGestionController {
+public class TableManagerController {
 
     public Button addTableButton;
     public Button showAvailableTablesButton;
@@ -27,7 +27,7 @@ public class TableGestionController {
 
     public void addTableCard(String tableNumber, int maxSeats, String reservationName) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/fxml/table/TableCard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/fxml/TableCardComponent.fxml"));
             HBox tableCard = loader.load();
 
             TableCardController controller = loader.getController();
@@ -62,7 +62,7 @@ public class TableGestionController {
     @FXML
     public void onAddTableButtonClicked() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/fxml/table/AddTableForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/fxml/AddTableForm.fxml"));
             VBox addTableForm = loader.load();
 
             AddTableController addTableController = loader.getController();
