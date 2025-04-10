@@ -6,7 +6,7 @@
 
     <VBox xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
-          fx:controller="com.forkfoe.forkfoe.AddDishController"
+          fx:controller="com.forkfoe.forkfoe.controller.AddDishController"
           spacing="10">
 
         <padding>
@@ -20,7 +20,7 @@
         <TextArea fx:id="descriptionField" prefRowCount="3"/>
 
         <Label text="Prix (€):"/>
-        <TextField fx:id="priceField"/>
+        <TextField fx:id="priceField" onKeyTyped="#onTypingPrice"/>
 
         <Label text="Image:"/>
         <HBox spacing="10">
@@ -29,7 +29,7 @@
         </HBox>
 
         <HBox spacing="10" alignment="CENTER_RIGHT">
-            <Button text="Annuler" onAction="#cancel"/>
             <Button text="Ajouter" onAction="#submitDish"/>
+            <Button text="Annuler" onAction="#cancel"/>
         </HBox>
     </VBox>

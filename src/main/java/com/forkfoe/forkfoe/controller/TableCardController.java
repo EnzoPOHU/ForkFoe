@@ -1,4 +1,4 @@
-package com.forkfoe.forkfoe.controller.table;
+package com.forkfoe.forkfoe.controller;
 
 import com.forkfoe.forkfoe.model.Table;
 import com.forkfoe.forkfoe.repository.TableRepository;
@@ -25,9 +25,9 @@ public class TableCardController {
     private int seats;
     private String reservationName;
 
-    private TableGestionController parentController;
+    private TableManagerController parentController;
 
-    public void setParentController(TableGestionController controller) {
+    public void setParentController(TableManagerController controller) {
         this.parentController = controller;
     }
 
@@ -47,7 +47,7 @@ public class TableCardController {
     @FXML
     private void onTableCardClicked() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/fxml/table/EditTableForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/fxml/EditTableForm.fxml"));
             VBox editTableForm = loader.load();
 
             EditTableController editorController = loader.getController();

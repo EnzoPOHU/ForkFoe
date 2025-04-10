@@ -20,7 +20,7 @@
     -fx-pref-width: 200;
 }
 
-.commander-button {
+.green-button {
     -fx-background-color: #27ae60;
     -fx-text-fill: white;
     -fx-padding: 8 16;
@@ -28,10 +28,15 @@
     -fx-cursor: hand;
     -fx-background-radius: 10;
 }
-.commander-button:hover {
+
+.green-button:hover {
     -fx-background-color: #2ecc71;
 }
 
-.button-delete {
+.red-button {
     -fx-background-color: red;
+}
+
+.blue-button {
+    -fx-background-color: blue;
 }

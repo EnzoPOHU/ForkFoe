@@ -1,6 +1,6 @@
 package com.forkfoe.forkfoe.repository;
 
-import com.forkfoe.forkfoe.SQLiteWrapper;
+import com.forkfoe.forkfoe.util.SQLiteWrapper;
 import com.forkfoe.forkfoe.model.Table;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class TableRepository {
 
     private static void fetchTablesFromDatabase() {
         try {
-            List<Object[]> rows = SQLiteWrapper.execute("SELECT * FROM restaurantTable");
+            List<Object[]> rows = SQLiteWrapper.execute("SELECT number, seat, reservationName FROM restaurantTable");
             tables = rows.stream()
                     .map(row -> new Table(
                             (Integer) row[0],

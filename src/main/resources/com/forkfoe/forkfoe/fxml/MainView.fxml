@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane fx:id="mainBorderPane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.forkfoe.forkfoe.controller.MainController" stylesheets="@../style/styles.css">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="60" spacing="20" styleClass="navbar">
+            <Button onAction="#switchScene" styleClass="nav-button" text="Table" userData="/com/forkfoe/forkfoe/fxml/TableManagerView.fxml" />
+            <Button onAction="#switchScene" styleClass="nav-button" text="Plat" userData="/com/forkfoe/forkfoe/fxml/DishView.fxml" />
+            <Button onAction="#switchScene" styleClass="nav-button" text="Commande" userData="/com/forkfoe/forkfoe/fxml/TableOrderView.fxml" />
+            <Button onAction="#switchScene" styleClass="nav-button" text="Employé" userData="/com/forkfoe/forkfoe/fxml/EmployeeView.fxml" />
+        </HBox>
+    </top>
+
+    <center>
+        <fx:include source="TableManagerView.fxml" />
+    </center>
+
+</BorderPane>

@@ -1,4 +1,4 @@
-package com.forkfoe.forkfoe;
+package com.forkfoe.forkfoe.util;
 
 import java.sql.*;
 import java.util.*;

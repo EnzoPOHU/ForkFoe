@@ -1,8 +1,8 @@
-package com.forkfoe.forkfoe;
+package com.forkfoe.forkfoe.repository;
 
-import javafx.scene.image.Image;
+import com.forkfoe.forkfoe.util.SQLiteWrapper;
+import com.forkfoe.forkfoe.model.Dish;
 
-import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 

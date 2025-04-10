@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Button?>
 
 <HBox xmlns:fx="http://javafx.com/fxml" spacing="15" alignment="CENTER"
-      fx:controller="com.forkfoe.forkfoe.controller.table.TableCardController"
+      fx:controller="com.forkfoe.forkfoe.controller.TableCardController"
       style="-fx-padding: 20; -fx-border-color: #007BFF; -fx-border-radius: 10; -fx-border-width: 2; -fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.5, 0, 2);"
       onMouseClicked="#onTableCardClicked">
     <VBox spacing="10" alignment="CENTER">

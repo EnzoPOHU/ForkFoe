@@ -1,4 +1,4 @@
-package com.forkfoe.forkfoe;
+package com.forkfoe.forkfoe.model;
 
 import javafx.scene.image.Image;
 

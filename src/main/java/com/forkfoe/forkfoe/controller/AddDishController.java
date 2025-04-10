@@ -1,12 +1,13 @@
-package com.forkfoe.forkfoe;
+package com.forkfoe.forkfoe.controller;
 
+import com.forkfoe.forkfoe.model.Dish;
+import com.forkfoe.forkfoe.repository.DishRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
+
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.*;
 
@@ -80,5 +81,14 @@ public class AddDishController {
     @FXML
     public void cancel() {
         ((Stage) nameField.getScene().getWindow()).close();
+    }
+
+    @FXML
+    protected void onTypingPrice() {
+        try {
+            Integer.parseInt(priceField.getText());
+        } catch (NumberFormatException e) {
+            priceField.clear();
+        }
     }
 }
