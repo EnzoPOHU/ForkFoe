@@ -16,7 +16,7 @@ public class TableRepository {
 
     private static void fetchTablesFromDatabase() {
         try {
-            List<Object[]> rows = SQLiteWrapper.execute("SELECT number, seat, reservationName FROM restaurantTable");
+            List<Object[]> rows = SQLiteWrapper.execute("SELECT * FROM restaurantTable");
             tables = rows.stream()
                     .map(row -> new Table(
                             (Integer) row[0],
@@ -36,7 +36,7 @@ public class TableRepository {
         try {
             SQLiteWrapper.execute(
                     "INSERT INTO restaurantTable (number, seat, reservationName) VALUES (?, ?, ?)",
-                    table.getNumber(), table.getMaxSeats(), table.getReservationName()
+                    table.number(), table.maxSeats(), table.reservationName()
             );
             tables.add(table);
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class TableRepository {
 
     public static void removeTable(Table table) {
         try {
-            SQLiteWrapper.execute("DELETE FROM restaurantTable WHERE number = ?", table.getNumber());
+            SQLiteWrapper.execute("DELETE FROM restaurantTable WHERE number = ?", table.number());
             fetchTablesFromDatabase();
         } catch (Exception e) {
             System.err.println("Erreur lors de la suppression de la table : " + e.getMessage());
@@ -59,10 +59,10 @@ public class TableRepository {
         try {
             SQLiteWrapper.execute(
                     "UPDATE restaurantTable SET number = ?, seat = ?, reservationName = ? WHERE number = ?",
-                    updatedTable.getNumber(), updatedTable.getMaxSeats(), updatedTable.getReservationName(), originalTableNumber
+                    updatedTable.number(), updatedTable.maxSeats(), updatedTable.reservationName(), originalTableNumber
             );
             tables = tables.stream()
-                    .map(existing -> existing.getNumber() == originalTableNumber ? updatedTable : existing)
+                    .map(existing -> existing.number() == originalTableNumber ? updatedTable : existing)
                     .collect(Collectors.toList());
         } catch (Exception e) {
             System.err.println("Erreur lors de la mise à jour de la table : " + e.getMessage());

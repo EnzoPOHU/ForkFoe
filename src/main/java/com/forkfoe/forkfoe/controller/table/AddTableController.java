@@ -2,6 +2,7 @@ package com.forkfoe.forkfoe.controller.table;
 
 import com.forkfoe.forkfoe.model.Table;
 import com.forkfoe.forkfoe.repository.TableRepository;
+import com.forkfoe.forkfoe.util.AlertUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -25,7 +26,7 @@ public class AddTableController {
     @FXML
     public void initialize() {
         SpinnerValueFactory<Integer> valueFactory =
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1); // Min: 1, Max: 20, Valeur initiale: 1
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1);
         maxSeatsInput.setValueFactory(valueFactory);
     }
 
@@ -35,7 +36,10 @@ public class AddTableController {
         int maxSeats = maxSeatsInput.getValue();
 
         if (tableNumber.isEmpty() || maxSeats <= 0) {
-            System.err.println("Tous les champs doivent être remplis !");
+            AlertUtil.showError(
+                    "Tous les champs doivent être remplis",
+                    "Champs invalides"
+            );
             return;
         }
 
@@ -44,7 +48,7 @@ public class AddTableController {
         Table newTable = new Table(tableNum, maxSeats, "Aucune réservation");
         TableRepository.addTable(newTable);
 
-        tableGestionController.addTableCard(String.valueOf(newTable.getNumber()), maxSeats, "Aucune réservation");
+        tableGestionController.addTableCard(String.valueOf(newTable.number()), maxSeats, "Aucune réservation");
         closeWindow();
     }
 

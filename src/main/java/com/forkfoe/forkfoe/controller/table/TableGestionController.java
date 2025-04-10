@@ -2,22 +2,22 @@ package com.forkfoe.forkfoe.controller.table;
 
 import com.forkfoe.forkfoe.model.Table;
 import com.forkfoe.forkfoe.repository.TableRepository;
+import com.forkfoe.forkfoe.util.AlertUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TableGestionController {
 
+    public Button addTableButton;
+    public Button showAvailableTablesButton;
+    public GridPane tableContainer;
     @FXML
     private VBox tablesList;
 
@@ -38,8 +38,10 @@ public class TableGestionController {
             updateNoTableLabelVisibility();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Erreur lors de l'ajout de la carte de table.");
+            AlertUtil.showError(
+                    "Impossible de charger la table",
+                    "Erreur de chargement de la table"
+            );
         }
     }
 
@@ -47,7 +49,7 @@ public class TableGestionController {
     private void loadTablesFromRepository() {
         List<Table> tables = TableRepository.getTables();
         for (Table table : tables) {
-            addTableCard(String.valueOf(table.getNumber()), table.getMaxSeats(), table.getReservationName());
+            addTableCard(String.valueOf(table.number()), table.maxSeats(), table.reservationName());
         }
     }
 
@@ -72,8 +74,10 @@ public class TableGestionController {
             stage.show();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Erreur lors du chargement du formulaire d'ajout de table.");
+            AlertUtil.showError(
+                    "Impossible de charger le formulaire d'ajout de table",
+                    "Erreur du formulaire d'ajout"
+            );
         }
     }
 
@@ -86,8 +90,8 @@ public class TableGestionController {
     @FXML
     public void onShowAvailableTablesClicked() {
         List<Table> tables = TableRepository.getTables().stream()
-                .filter(table -> "Aucune réservation".equalsIgnoreCase(table.getReservationName()))
-                .collect(Collectors.toList());
+                .filter(table -> "Aucune réservation".equalsIgnoreCase(table.reservationName()))
+                .toList();
 
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("Tables disponibles");
@@ -96,7 +100,7 @@ public class TableGestionController {
         ListView<String> tableListView = new ListView<>();
         tableListView.getItems().addAll(
                 tables.stream()
-                        .map(table -> "Table #" + table.getNumber())
+                        .map(table -> "Table #" + table.number())
                         .toList()
         );
 

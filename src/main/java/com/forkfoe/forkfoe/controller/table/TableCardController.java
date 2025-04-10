@@ -2,6 +2,7 @@ package com.forkfoe.forkfoe.controller.table;
 
 import com.forkfoe.forkfoe.model.Table;
 import com.forkfoe.forkfoe.repository.TableRepository;
+import com.forkfoe.forkfoe.util.AlertUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -38,7 +39,7 @@ public class TableCardController {
                 ? "Aucune réservation"
                 : reservationName;
 
-        tableNumberLabel.setText("Table #: " + tableNumber);
+        tableNumberLabel.setText("Table n° " + tableNumber);
         seatsLabel.setText("Places: " + seats);
         reservationNameLabel.setText(this.reservationName);
     }
@@ -59,8 +60,10 @@ public class TableCardController {
             stage.show();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Erreur lors de l'ouverture du formulaire d'édition de table.");
+            AlertUtil.showError(
+                    "Impossible d'ouvrir le formulaire d'édition",
+                    "Erreur du formulaire d'édition"
+            );
         }
     }
 
@@ -74,6 +77,5 @@ public class TableCardController {
         TableRepository.updateTable(updatedTable, tableNumber);
         parentController.refreshTableCards();
     }
-
 
 }

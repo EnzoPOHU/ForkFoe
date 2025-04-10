@@ -2,6 +2,7 @@ package com.forkfoe.forkfoe.controller.table;
 
 import com.forkfoe.forkfoe.model.Table;
 import com.forkfoe.forkfoe.repository.TableRepository;
+import com.forkfoe.forkfoe.util.AlertUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -30,7 +31,7 @@ public class EditTableController {
     @FXML
     public void initialize() {
         SpinnerValueFactory<Integer> valueFactory =
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1); // Min: 1, Max: 20, Valeur initiale: 1
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1);
         maxSeatsInput.setValueFactory(valueFactory);
     }
 
@@ -81,8 +82,10 @@ public class EditTableController {
                 System.out.println("parentController est null !");
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Erreur lors du rafraîchissement des cartes.");
+            AlertUtil.showError(
+                    "Erreur lors de la suppression de la table",
+                    "Erreur de suppression"
+            );
         }
 
         closeWindow();
