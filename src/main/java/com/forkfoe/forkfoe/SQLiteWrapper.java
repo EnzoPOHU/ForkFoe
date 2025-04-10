@@ -24,8 +24,9 @@ public final class SQLiteWrapper {
      * @param maxSeats
      */
     public static void insertTable(int number, int maxSeats) {
-        String query = "INSERT INTO restaurantTable (number, seat) VALUES (?, ?);";
-        SQLiteWrapper.execute(query, number, maxSeats);
+        String query = "INSERT INTO restaurantTable (number, seat, reservationName) VALUES (?, ?, ?);";
+        execute(query, number, maxSeats, "Aucune réservation");
+        System.out.println("Table ajoutée avec numéro " + number + ", sièges max : " + maxSeats);
     }
 
     /**

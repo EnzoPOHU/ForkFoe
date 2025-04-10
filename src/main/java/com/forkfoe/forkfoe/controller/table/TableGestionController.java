@@ -10,8 +10,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.List;
 
-
-
 public class TableGestionController {
 
     @FXML
@@ -26,7 +24,6 @@ public class TableGestionController {
      * @param maxSeats
      * @param reservationName
      */
-
     public void addTableCard(String tableNumber, int maxSeats, String reservationName) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/fxml/table/TableCard.fxml"));
@@ -77,14 +74,15 @@ public class TableGestionController {
     }
 
     private void loadTablesFromDatabase() {
-        String query = "SELECT number, seat FROM restaurantTable;";
+        String query = "SELECT number, seat, reservationName FROM restaurantTable;";
         List<Object[]> tables = SQLiteWrapper.execute(query);
 
         for (Object[] row : tables) {
             int number = (int) row[0];
             int maxSeats = (int) row[1];
-            addTableCard(String.valueOf(number), maxSeats, ""); // "Aucune réservation" par défaut
+            String reservationName = row[2] != null ? String.valueOf(row[2]) : "Aucune réservation";
+
+            addTableCard(String.valueOf(number), maxSeats, reservationName);
         }
     }
-
 }

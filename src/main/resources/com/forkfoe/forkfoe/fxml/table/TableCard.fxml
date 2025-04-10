@@ -5,7 +5,8 @@
 
 <HBox xmlns:fx="http://javafx.com/fxml" spacing="10" alignment="CENTER"
       fx:controller="com.forkfoe.forkfoe.controller.table.TableCardController"
-      style="-fx-padding: 10; -fx-border-color: #ccc; -fx-border-radius: 5; -fx-border-width: 1; -fx-background-color: #f9f9f9; -fx-background-radius: 5;">
+      style="-fx-padding: 10; -fx-border-color: #ccc; -fx-border-radius: 5; -fx-border-width: 1; -fx-background-color: #f9f9f9; -fx-background-radius: 5;"
+      onMouseClicked="#onTableCardClicked">
     <VBox spacing="5">
         <Label fx:id="tableNumberLabel" style="-fx-font-size: 16px;" />
         <Label fx:id="seatsLabel" style="-fx-font-size: 14px; -fx-text-fill: gray;" />

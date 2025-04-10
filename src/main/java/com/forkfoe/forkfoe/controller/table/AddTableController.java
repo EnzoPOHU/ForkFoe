@@ -39,9 +39,10 @@ public class AddTableController {
         }
 
         int tableNum = Integer.parseInt(tableNumber);
+
         SQLiteWrapper.insertTable(tableNum, maxSeats);
 
-        tableGestionController.addTableCard(tableNumber, maxSeats, "");
+        tableGestionController.addTableCard(tableNumber, maxSeats, "Aucune réservation");
 
         closeWindow();
     }

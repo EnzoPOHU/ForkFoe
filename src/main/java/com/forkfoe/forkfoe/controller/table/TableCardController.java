@@ -1,7 +1,11 @@
 package com.forkfoe.forkfoe.controller.table;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class TableCardController {
 
@@ -14,9 +18,39 @@ public class TableCardController {
     @FXML
     private Label reservationNameLabel;
 
+    private int tableNumber;
+    private int seats;
+    private String reservationName;
+
     public void setTableCardDetails(String tableNumber, int seats, String reservationName) {
+        this.tableNumber = Integer.parseInt(tableNumber);
+        this.seats = seats;
+        this.reservationName = (reservationName == null || reservationName.isBlank())
+                ? "Aucune réservation"
+                : reservationName;
+
         tableNumberLabel.setText("Table #: " + tableNumber);
         seatsLabel.setText("Places: " + seats);
-        reservationNameLabel.setText(reservationName.isEmpty() ? "Aucune réservation" : "Réservée par : " + reservationName);
+        reservationNameLabel.setText(this.reservationName);
+    }
+
+    @FXML
+    private void onTableCardClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/fxml/table/EditTableForm.fxml"));
+            VBox editTableForm = loader.load();
+
+            EditTableController editorController = loader.getController();
+            editorController.setTableDetails(tableNumber, seats, reservationName);
+
+            Stage stage = new Stage();
+            stage.setTitle("Modifier la table #" + tableNumber);
+            stage.setScene(new Scene(editTableForm));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Erreur lors de l'ouverture du formulaire d'édition de table.");
+        }
     }
 }
