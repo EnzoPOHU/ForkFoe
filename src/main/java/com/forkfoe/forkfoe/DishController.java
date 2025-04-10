@@ -39,7 +39,6 @@ public class DishController {
                 int quantity = spinner.getValue();
                 String dishName = cb.getText();
 
-                // Recherche du plat correspondant par son nom
                 Dish selectedDish = dishes.stream()
                         .filter(d -> d.name.equals(dishName))
                         .findFirst()
@@ -48,11 +47,7 @@ public class DishController {
                 if (selectedDish != null) {
                     int price = selectedDish.getPrice();
                     bill += price * quantity;
-
-                    commande.append("- ")
-                            .append(dishName)
-                            .append(" x").append(quantity)
-                            .append(" (").append(price).append("€)").append("\n");
+                    commande.append("- " + dishName + " x" + quantity +" (" + price + "€)" + "\n");
                 }
             }
         }
@@ -63,7 +58,6 @@ public class DishController {
             return;
         }
 
-        System.out.println(commande.toString());
         int table = 1;
         onCreateOrderClick(bill, table);
         Alert confirmation = new Alert(Alert.AlertType.INFORMATION, "Commande validée !");
@@ -166,7 +160,6 @@ public class DishController {
             dialog.setTitle("Détails du plat");
             dialog.showAndWait();
         } catch (Exception e) {
-            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors de l'affichage des détails : " + e.getMessage());
             alert.showAndWait();
         }
@@ -175,7 +168,7 @@ public class DishController {
 
     private void onCreateOrderClick(int bill, int tableId) {
         try {
-            String status = "en cours";
+            String status = "En cours";
             TableOrder newOrder = new TableOrder(bill, status, tableId);
             TableOrderRepository.addOrder(newOrder);
 
