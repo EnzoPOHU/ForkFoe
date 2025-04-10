@@ -49,7 +49,7 @@ public class TableCardController {
 
             EditTableController editorController = loader.getController();
             editorController.setTableDetails(tableNumber, seats, reservationName);
-            editorController.setParentController(parentController); // 👈 on passe le parent ici
+            editorController.setParentController(parentController);
 
             Stage stage = new Stage();
             stage.setTitle("Modifier la table #" + tableNumber);

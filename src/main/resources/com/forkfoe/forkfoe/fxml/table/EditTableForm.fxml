@@ -41,5 +41,8 @@
         <Button text="Annuler"
                 style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-size: 14px; -fx-pref-width: 120px;"
                 onAction="#onCancelClicked" />
+        <Button text="Supprimer"
+                style="-fx-background-color: #FF5722; -fx-text-fill: white; -fx-font-size: 14px; -fx-pref-width: 120px;"
+                onAction="#onDeleteClicked" />
     </HBox>
 </VBox>

@@ -48,7 +48,7 @@ public class TableRepository {
     public static void removeTable(Table table) {
         try {
             SQLiteWrapper.execute("DELETE FROM restaurantTable WHERE number = ?", table.getNumber());
-            tables.remove(table);
+            fetchTablesFromDatabase();
         } catch (Exception e) {
             System.err.println("Erreur lors de la suppression de la table : " + e.getMessage());
         }

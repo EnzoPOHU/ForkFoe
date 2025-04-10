@@ -21,7 +21,6 @@ public class TableGestionController {
     private Label noTableLabel;
 
 
-
     public void addTableCard(String tableNumber, int maxSeats, String reservationName) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/fxml/table/TableCard.fxml"));

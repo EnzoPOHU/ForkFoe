@@ -24,6 +24,7 @@ public class EditTableController {
 
     public void setParentController(TableGestionController controller) {
         this.parentController = controller;
+        System.out.println("ParentController défini : " + (parentController != null));
     }
 
     @FXML
@@ -64,5 +65,26 @@ public class EditTableController {
     private void closeWindow() {
         Stage stage = (Stage) tableNumberInput.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    public void onDeleteClicked() {
+        System.out.println("Suppression d'une table en cours...");
+        Table tableToRemove = new Table(originalTableNumber, maxSeatsInput.getValue(), reservationNameInput.getText());
+        TableRepository.removeTable(tableToRemove);
+
+        try {
+            if (parentController != null) {
+                System.out.println("Appel à refreshTableCards à partir de onDeleteClicked...");
+                parentController.refreshTableCards();
+            } else {
+                System.out.println("parentController est null !");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Erreur lors du rafraîchissement des cartes.");
+        }
+
+        closeWindow();
     }
 }
