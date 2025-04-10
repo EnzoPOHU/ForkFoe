@@ -13,10 +13,16 @@ public class DishRepository {
         dishs = fetchDishs();
     }
 
+    /*
+    static list for get only once dishs
+     */
     public static List<Dish> getDish() {
         return dishs;
     }
 
+    /*
+    get all dishs in database
+     */
     public static List<Dish> fetchDishs() {
         try {
             return SQLiteWrapper.execute("SELECT * FROM tableDish").stream()
@@ -36,6 +42,9 @@ public class DishRepository {
         }
     }
 
+    /*
+    method to create a dish
+     */
     public static void addDish(Dish dish) {
         try {
             SQLiteWrapper.execute(
@@ -51,6 +60,9 @@ public class DishRepository {
         }
     }
 
+    /*
+    method to remove one dish with the name
+     */
     public static void removeDish(Dish dish) {
         try {
             SQLiteWrapper.execute("DELETE FROM tableDish WHERE name = ?", dish.name);
