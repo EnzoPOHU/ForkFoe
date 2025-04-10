@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+<DialogPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.forkfoe.forkfoe.DetailDishController">
+
+    <content>
+        <VBox spacing="10">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            </padding>
+            <Label fx:id="nameLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+            <ImageView fx:id="imageView" fitHeight="200" fitWidth="200" />
+            <Label fx:id="priceLabel" />
+            <TextArea fx:id="descriptionArea" editable="false" wrapText="true" prefRowCount="5"/>
+            <Button fx:id="backButton" text="Retour" onAction="#closeWindow"/>
+        </VBox>
+    </content>
+
+</DialogPane>
