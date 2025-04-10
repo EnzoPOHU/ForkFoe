@@ -5,12 +5,16 @@ import com.forkfoe.forkfoe.repository.TableRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TableGestionController {
 
@@ -77,6 +81,29 @@ public class TableGestionController {
         tablesList.getChildren().clear();
         loadTablesFromRepository();
         updateNoTableLabelVisibility();
+    }
+
+    @FXML
+    public void onShowAvailableTablesClicked() {
+        List<Table> tables = TableRepository.getTables().stream()
+                .filter(table -> "Aucune réservation".equalsIgnoreCase(table.getReservationName()))
+                .collect(Collectors.toList());
+
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("Tables disponibles");
+        dialog.setHeaderText("Liste des tables actuellement disponibles :");
+
+        ListView<String> tableListView = new ListView<>();
+        tableListView.getItems().addAll(
+                tables.stream()
+                        .map(table -> "Table #" + table.getNumber())
+                        .toList()
+        );
+
+        dialog.getDialogPane().setContent(tableListView);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CLOSE);
+
+        dialog.showAndWait();
     }
 
 

@@ -20,6 +20,11 @@
                     style="-fx-font-size: 16px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20 10 20;"
                     onAction="#onAddTableButtonClicked" />
 
+            <Button fx:id="showAvailableTablesButton"
+                    text="📋 Tables disponibles"
+                    style="-fx-font-size: 16px; -fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20 10 20;"
+                    onAction="#onShowAvailableTablesClicked"/>
+
         </HBox>
     </top>
 
