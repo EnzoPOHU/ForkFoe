@@ -41,3 +41,4 @@ build/
 database.db
 
 .idea/dataSources.xml
+.idea/uiDesigner.xml
