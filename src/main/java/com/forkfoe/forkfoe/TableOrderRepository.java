@@ -38,6 +38,7 @@ public class TableOrderRepository {
                     "INSERT INTO tableOrder (bill, status, table_id) VALUES (?, ?, ?)",
                     order.getBill(), order.getStatus(), order.getTableId()
             );
+            order.setId((Integer)SQLiteWrapper.execute("SELECT id FROM employee ORDER BY id DESC LIMIT 1").getFirst()[0]);
             orders.add(order);
         } catch (Exception e) {
             System.err.println("Erreur lors de l'ajout d'une commande : " + e.getMessage());

@@ -21,13 +21,6 @@ public class TableOrderController {
 
     public Button createOrderButton;
     public Button showOrdersButton;
-    @FXML
-    private Label welcomeText;
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to Fork Foe!");
-    }
 
     @FXML
     private void onShowOrdersClick() {
@@ -37,7 +30,6 @@ public class TableOrderController {
 
         List<TableOrder> orders = TableOrderRepository.fetchOrders();
 
-        System.out.println(orders);
         // Ajouter chaque commande directement dans la ListView
         for (TableOrder order : orders) {
             String orderInfo = "Commande #" + order.getId() +
@@ -58,20 +50,10 @@ public class TableOrderController {
 
             List<TableOrder> orders = TableOrderRepository.getOrders();
 
-            int maxId = 0;
-            for (TableOrder order : orders) {
-                if (order.getId() > maxId) {
-                    maxId = order.getId();
-                }
-            }
 
-            int newOrderId = maxId + 1;
-
-            TableOrder newOrder = new TableOrder(newOrderId, bill, status, tableId);
+            TableOrder newOrder = new TableOrder(bill, status, tableId);
 
             TableOrderRepository.addOrder(newOrder);
-
-            System.out.println("Commande créée avec succès !");
 
             billField.clear();
             statusComboBox.getSelectionModel().clearSelection();
@@ -101,8 +83,6 @@ public class TableOrderController {
     }
 
     private int extractOrderId(String orderInfo) {
-        // Extraire l'ID de la commande à partir de la chaîne de texte
-        // Par exemple : "Commande #1 | Montant: 50 | Statut: En attente | Table: 3"
         String[] parts = orderInfo.split(" ");
         return Integer.parseInt(parts[1].substring(1)); // On suppose que l'ID est après "Commande #"
     }
@@ -113,12 +93,11 @@ public class TableOrderController {
         String newStatus = newStatusComboBox.getValue();
 
         if (selectedOrder == null || newStatus == null || newStatus.isEmpty()) {
-            System.out.println("Veuillez sélectionner une commande et un nouveau statut.");
+            System.err.println("Veuillez sélectionner une commande et un nouveau statut.");
             return;
         }
 
         try {
-            // Extraire l'ID de la commande à partir de la chaîne "Commande #X | ..."
             int orderId = Integer.parseInt(selectedOrder.split("#")[1].split(" ")[0]);
 
             // Mettre à jour le statut dans la base
@@ -127,7 +106,6 @@ public class TableOrderController {
             // Rafraîchir la liste
             onShowOrdersClick();
 
-            System.out.println("Statut mis à jour !");
         } catch (Exception e) {
             System.err.println("Erreur lors de la mise à jour du statut : " + e.getMessage());
         }
