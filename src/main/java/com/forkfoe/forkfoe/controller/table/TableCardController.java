@@ -1,5 +1,7 @@
 package com.forkfoe.forkfoe.controller.table;
 
+import com.forkfoe.forkfoe.model.Table;
+import com.forkfoe.forkfoe.repository.TableRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -61,5 +63,17 @@ public class TableCardController {
             System.err.println("Erreur lors de l'ouverture du formulaire d'édition de table.");
         }
     }
+
+
+    @FXML
+    private void onLibererButtonClicked() {
+        this.reservationName = "Aucune réservation";
+        reservationNameLabel.setText(this.reservationName);
+
+        Table updatedTable = new Table(tableNumber, seats, "Aucune réservation");
+        TableRepository.updateTable(updatedTable, tableNumber);
+        parentController.refreshTableCards();
+    }
+
 
 }
