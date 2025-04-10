@@ -21,6 +21,7 @@ public class TableGestionController {
     private Label noTableLabel;
 
 
+
     public void addTableCard(String tableNumber, int maxSeats, String reservationName) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/fxml/table/TableCard.fxml"));
@@ -28,6 +29,7 @@ public class TableGestionController {
 
             TableCardController controller = loader.getController();
             controller.setTableCardDetails(tableNumber, maxSeats, reservationName);
+            controller.setParentController(this);
 
             tablesList.getChildren().add(tableCard);
             updateNoTableLabelVisibility();
@@ -37,6 +39,7 @@ public class TableGestionController {
             System.err.println("Erreur lors de l'ajout de la carte de table.");
         }
     }
+
 
     private void loadTablesFromRepository() {
         List<Table> tables = TableRepository.getTables();
@@ -69,6 +72,12 @@ public class TableGestionController {
             e.printStackTrace();
             System.err.println("Erreur lors du chargement du formulaire d'ajout de table.");
         }
+    }
+
+    public void refreshTableCards() {
+        tablesList.getChildren().clear();
+        loadTablesFromRepository();
+        updateNoTableLabelVisibility();
     }
 
 

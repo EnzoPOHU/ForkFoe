@@ -22,6 +22,13 @@ public class TableCardController {
     private int seats;
     private String reservationName;
 
+    private TableGestionController parentController;
+
+    public void setParentController(TableGestionController controller) {
+        this.parentController = controller;
+    }
+
+
     public void setTableCardDetails(String tableNumber, int seats, String reservationName) {
         this.tableNumber = Integer.parseInt(tableNumber);
         this.seats = seats;
@@ -42,6 +49,7 @@ public class TableCardController {
 
             EditTableController editorController = loader.getController();
             editorController.setTableDetails(tableNumber, seats, reservationName);
+            editorController.setParentController(parentController); // 👈 on passe le parent ici
 
             Stage stage = new Stage();
             stage.setTitle("Modifier la table #" + tableNumber);
@@ -53,4 +61,5 @@ public class TableCardController {
             System.err.println("Erreur lors de l'ouverture du formulaire d'édition de table.");
         }
     }
+
 }

@@ -20,6 +20,11 @@ public class EditTableController {
     private TextField reservationNameInput;
 
     private int originalTableNumber;
+    private TableGestionController parentController;
+
+    public void setParentController(TableGestionController controller) {
+        this.parentController = controller;
+    }
 
     @FXML
     public void initialize() {
@@ -45,6 +50,9 @@ public class EditTableController {
         Table updatedTable = new Table(updatedTableNumber, updatedMaxSeats, updatedReservation);
         TableRepository.updateTable(updatedTable, originalTableNumber);
 
+        if (parentController != null) {
+            parentController.refreshTableCards();
+        }
         closeWindow();
     }
 

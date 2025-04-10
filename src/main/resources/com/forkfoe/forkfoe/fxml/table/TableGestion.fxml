@@ -31,16 +31,21 @@
                   alignment="TOP_CENTER"
                   hgap="20" vgap="20">
 
-            <VBox fx:id="tablesList"
-                  GridPane.rowIndex="1" GridPane.columnIndex="0"
-                  GridPane.columnSpan="2"
-                  alignment="TOP_CENTER"
-                  style="-fx-border-color: #DDDDDD; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8;"
-                  prefHeight="400" prefWidth="800">
-                <Label fx:id="noTableLabel"
-                       text="Aucune table disponible pour le moment"
-                       style="-fx-font-size: 14px; -fx-text-fill: #888;" />
-            </VBox>
+            <ScrollPane GridPane.rowIndex="1" GridPane.columnIndex="0"
+                        GridPane.columnSpan="2"
+                        prefHeight="400" prefWidth="800"
+                        fitToWidth="true"
+                        style="-fx-background-color: transparent;">
+                <VBox fx:id="tablesList"
+                      alignment="TOP_CENTER"
+                      spacing="10"
+                      style="-fx-border-color: #DDDDDD; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8;">
+                    <Label fx:id="noTableLabel"
+                           text="Aucune table disponible pour le moment"
+                           style="-fx-font-size: 14px; -fx-text-fill: #888;" />
+                </VBox>
+            </ScrollPane>
+
 
         </GridPane>
     </center>
