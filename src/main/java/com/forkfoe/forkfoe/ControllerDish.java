@@ -1,35 +1,132 @@
 package com.forkfoe.forkfoe;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ControllerDish {
 
-    @FXML private CheckBox checkboxPizza;
-    @FXML private Spinner<Integer> spinnerPizza;
+    @FXML
+    private VBox dishContainer;
 
-    @FXML private CheckBox checkboxBurger;
-    @FXML private Spinner<Integer> spinnerBurger;
+    private Map<CheckBox, Spinner<Integer>> dishMap = new HashMap<>();
+
+    private final List<Dish> dishes = DishRepository.getDish();
 
     @FXML
     public void initialize() {
-        spinnerPizza.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
-        spinnerBurger.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
+        for (Dish dish : dishes) {
+            CheckBox checkBox = new CheckBox(dish.name);
+            Button viewButton = new Button("Détail");
+            Button delButton = new Button("Supprimer");
+            delButton.getStyleClass().add("button-delete");
+            Spinner<Integer> spinner = new Spinner<>();
+            spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
+            spinner.setDisable(true);
+
+            checkBox.setOnAction(e -> spinner.setDisable(!checkBox.isSelected()));
+            viewButton.setOnAction(e -> openDetailPopup(dish));
+            delButton.setOnAction(e -> {
+                DishRepository.removeDish(dish);
+                dishContainer.getChildren().removeIf(node -> ((HBox) node).getChildren().contains(delButton));
+            });
+
+            HBox dishRow = new HBox(10, checkBox, spinner, viewButton, delButton);
+            dishContainer.getChildren().add(dishRow);
+
+            dishMap.put(checkBox, spinner);
+        }
     }
 
     @FXML
-    private void validerCommande() {
-        StringBuilder commande = new StringBuilder("Commande :\n");
+    private void validCommand() {
+        StringBuilder commande = new StringBuilder("Commande envoyée :\n");
 
-        if (checkboxPizza.isSelected()) {
-            commande.append("Pizza x").append(spinnerPizza.getValue()).append("\n");
+        for (Map.Entry<CheckBox, Spinner<Integer>> entry : dishMap.entrySet()) {
+            CheckBox cb = entry.getKey();
+            Spinner<Integer> spinner = entry.getValue();
+
+            if (cb.isSelected() && spinner.getValue() > 0) {
+                commande.append("- ").append(cb.getText())
+                        .append(" x").append(spinner.getValue()).append("\n");
+            }
         }
-        if (checkboxBurger.isSelected()) {
-            commande.append("Burger x").append(spinnerBurger.getValue()).append("\n");
+
+        if (commande.toString().equals("Commande envoyée :\n")) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Aucun plat sélectionné.");
+            alert.showAndWait();
+            return;
         }
 
         System.out.println(commande.toString());
+
+        Alert confirmation = new Alert(Alert.AlertType.INFORMATION, "Commande validée !");
+        confirmation.showAndWait();
     }
+
+    @FXML
+    private void openAddDishPopup() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/AddDishForm.fxml"));
+            VBox content = loader.load();
+
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setTitle("Ajouter un Plat");
+            dialog.getDialogPane().setContent(content);
+
+            dialog.showAndWait();
+
+            refreshDishList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ouverture du formulaire : " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    public void refreshDishList() {
+        dishContainer.getChildren().clear();
+
+        List<Dish> updatedDishes = DishRepository.getDish();
+
+        for (Dish dish : updatedDishes) {
+            CheckBox checkBox = new CheckBox(dish.name);
+            Spinner<Integer> spinner = new Spinner<>();
+            spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
+            spinner.setDisable(true);
+
+            checkBox.setOnAction(e -> spinner.setDisable(!checkBox.isSelected()));
+
+            HBox dishRow = new HBox(10, checkBox, spinner);
+            dishContainer.getChildren().add(dishRow);
+
+            dishMap.put(checkBox, spinner);
+        }
+    }
+    private void openDetailPopup(Dish dish) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/DetailDish.fxml"));
+            DialogPane pane = loader.load();
+
+            DetailDishController controller = loader.getController();
+            controller.setDish(dish);
+
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(pane);
+            dialog.setTitle("Détails du plat");
+            dialog.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors de l'affichage des détails : " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
 }

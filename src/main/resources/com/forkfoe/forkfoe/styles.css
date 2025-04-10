@@ -31,3 +31,7 @@
 .commander-button:hover {
     -fx-background-color: #2ecc71;
 }
+
+.button-delete {
+    -fx-background-color: red;
+}
