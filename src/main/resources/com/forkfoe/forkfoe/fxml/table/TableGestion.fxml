@@ -37,7 +37,8 @@
                   alignment="TOP_CENTER"
                   style="-fx-border-color: #DDDDDD; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8;"
                   prefHeight="400" prefWidth="800">
-                <Label text="Aucune table disponible pour le moment"
+                <Label fx:id="noTableLabel"
+                       text="Aucune table disponible pour le moment"
                        style="-fx-font-size: 14px; -fx-text-fill: #888;" />
             </VBox>
 

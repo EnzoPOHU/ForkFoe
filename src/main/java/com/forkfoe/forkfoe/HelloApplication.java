@@ -48,8 +48,8 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/forkfoe/forkfoe/fxml/table/TableGestion.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setTitle("Hello!");
-        stage.setScene(scene);
-        stage.show();
+            stage.setScene(scene);
+            stage.show();
     }
 
     public static void main(String[] args) {

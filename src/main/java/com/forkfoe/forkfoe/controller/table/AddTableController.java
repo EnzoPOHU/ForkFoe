@@ -1,6 +1,8 @@
 package com.forkfoe.forkfoe.controller.table;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -10,37 +12,42 @@ public class AddTableController {
     private TextField tableNumberInput;
 
     @FXML
-    private TextField maxSeatsInput;
+    private Spinner<Integer> maxSeatsInput;
 
-    // Action déclenchée lorsque l'utilisateur clique sur "Enregistrer"
+    private TableGestionController tableGestionController;
+
+    public void setTableGestionController(TableGestionController controller) {
+        this.tableGestionController = controller;
+    }
+
+    @FXML
+    public void initialize() {
+        SpinnerValueFactory<Integer> valueFactory =
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1); // Min: 1, Max: 20, Valeur initiale: 1
+        maxSeatsInput.setValueFactory(valueFactory);
+    }
+
     @FXML
     public void onSaveTableClicked() {
-        // Récupérer les valeurs saisies
         String tableNumber = tableNumberInput.getText();
-        String maxSeats = maxSeatsInput.getText();
+        int maxSeats = maxSeatsInput.getValue();
 
-        // Vérifier les entrées (validation simplifiée ici, mais on peut l'adapter)
-        if (tableNumber.isEmpty() || maxSeats.isEmpty()) {
+        if (tableNumber.isEmpty() || maxSeats <= 0) {
             System.err.println("Tous les champs doivent être remplis !");
             return;
         }
 
-        // Afficher les valeurs récupérées, ou les envoyer pour un traitement
-        System.out.println("Table créée : Numéro = " + tableNumber + ", Nombre de places = " + maxSeats);
-
-        // Fermer la fenêtre courante
+        tableGestionController.addTableCard(tableNumber, maxSeats, "");
         closeWindow();
     }
 
-    // Action déclenchée lorsque l'utilisateur clique sur "Annuler"
-    @FXML
-    public void onCancelClicked() {
-        closeWindow();
-    }
-
-    // Méthode utilitaire pour fermer la fenêtre courante (le formulaire)
     private void closeWindow() {
         Stage stage = (Stage) tableNumberInput.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    public void onCancelClicked() {
+        closeWindow();
     }
 }

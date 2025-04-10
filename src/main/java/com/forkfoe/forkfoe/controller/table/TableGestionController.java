@@ -3,32 +3,74 @@ package com.forkfoe.forkfoe.controller.table;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 public class TableGestionController {
 
     @FXML
-    public void onAddTableButtonClicked() {
+    private VBox tablesList;
+
+    @FXML
+    private Label noTableLabel;
+
+    /**
+     * Ajouter une carte de table dans l'interface.
+     *
+     * @param tableNumber     Numéro de la table
+     * @param maxSeats        Nombre de sièges maximum
+     * @param reservationName Nom de la réservation (ou NULL si aucune réservation)
+     */
+
+    public void addTableCard(String tableNumber, int maxSeats, String reservationName) {
         try {
-            // Chemin corrigé vers le dossier "table"
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/fxml/table/AddTableForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/fxml/table/TableCard.fxml"));
+            HBox tableCard = loader.load();
 
-            // Charger le fichier FXML
-            System.out.println("Chargement du fichier FXML depuis : " + getClass().getResource("/com/forkfoe/forkfoe/fxml/table/AddTableForm.fxml"));
+            TableCardController controller = loader.getController();
+            controller.setTableCardDetails(tableNumber, maxSeats, reservationName);
 
-            // Créer et afficher la fenêtre
-            Stage formStage = new Stage();
-            Scene formScene = new Scene(loader.load());
-            formStage.setTitle("Créer une table");
-            formStage.setScene(formScene);
-            formStage.initModality(Modality.APPLICATION_MODAL);
-            formStage.showAndWait();
+            tablesList.getChildren().add(tableCard);
+
+            updateNoTableLabelVisibility();
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Erreur lors de l'ouverture du formulaire de création de table.");
+            System.err.println("Erreur lors de l'ajout de la carte de table.");
         }
+    }
+
+    private void updateNoTableLabelVisibility() {
+        noTableLabel.setVisible(tablesList.getChildren().isEmpty());
+    }
+
+    @FXML
+    public void onAddTableButtonClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/forkfoe/forkfoe/fxml/table/AddTableForm.fxml"));
+            VBox addTableForm = loader.load();
+
+            AddTableController addTableController = loader.getController();
+            addTableController.setTableGestionController(this);
+
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter une table");
+            stage.setScene(new Scene(addTableForm));
+            stage.initOwner(tablesList.getScene().getWindow());
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Erreur lors du chargement du formulaire d'ajout de table.");
+        }
+    }
+
+    @FXML
+    public void initialize() {
+        updateNoTableLabelVisibility();
     }
 }
