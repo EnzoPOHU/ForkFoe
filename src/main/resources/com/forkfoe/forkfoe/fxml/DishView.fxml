@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.forkfoe.forkfoe.controller.DishController">
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.forkfoe.forkfoe.controller.DishController">
 
     <center>
-        <VBox spacing="15" fx:id="dishContainer">
+        <VBox spacing="15">
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
             </padding>
             <ComboBox fx:id="newStatusComboBox">
 
             </ComboBox>
+
+            <TextField fx:id="ingredientSearch" prefHeight="25.0" prefWidth="142.0" promptText="🔍 Rechercher un ingrédient" onKeyReleased="#onIngredientSearch"/>
+            <VBox fx:id="dishContainer" spacing="15"/>
         </VBox>
+
     </center>
 
     <bottom>
@@ -27,11 +30,14 @@
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </padding>
             <HBox alignment="CENTER_LEFT">
-                <Button text="Ajouter un plat" styleClass="ajouter-button" onAction="#openAddDishPopup"/>
+                <Button onAction="#openAddDishPopup" styleClass="ajouter-button" text="Ajouter un plat" />
+            </HBox>
+            <HBox alignment="CENTER">
+                <Label fx:id="totalLabel" text="Le total de la carte est de : " />
             </HBox>
             <Pane HBox.hgrow="ALWAYS"/>
             <HBox alignment="CENTER_RIGHT">
-                <Button text="Commander" styleClass="commander-button" onAction="#validCommand"/>
+                <Button onAction="#validCommand" styleClass="commander-button" text="Commander" />
             </HBox>
         </HBox>
     </bottom>

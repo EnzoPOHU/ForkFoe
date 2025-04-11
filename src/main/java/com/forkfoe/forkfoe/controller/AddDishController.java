@@ -11,7 +11,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.*;
 
-public class AddDishController {
+public class AddDishController{
 
     @FXML private TextField nameField;
     @FXML private TextArea descriptionField;
@@ -71,7 +71,6 @@ public class AddDishController {
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ajout du plat : " + e.getMessage());
             alert.showAndWait();
-            e.printStackTrace();
         }
     }
 
