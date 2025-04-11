@@ -1,9 +1,11 @@
 package com.forkfoe.forkfoe.controller;
 
 import com.forkfoe.forkfoe.model.Dish;
+import com.forkfoe.forkfoe.model.Table;
 import com.forkfoe.forkfoe.repository.DishRepository;
 import com.forkfoe.forkfoe.model.TableOrder;
 import com.forkfoe.forkfoe.repository.TableOrderRepository;
+import com.forkfoe.forkfoe.repository.TableRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -20,6 +22,9 @@ public class DishController {
     @FXML
     private VBox dishContainer;
 
+    @FXML
+    private ComboBox<Integer> newStatusComboBox;
+
     private Map<CheckBox, Spinner<Integer>> dishMap = new HashMap<>();
 
     private final List<Dish> dishes = DishRepository.getDish();
@@ -29,7 +34,12 @@ public class DishController {
         for (Dish dish : dishes) {
             addDishToView(dish);
         }
+        List<Table> tables = TableRepository.getTables();
+        for (Table table : tables) {
+            newStatusComboBox.getItems().add(table.number());
+        }
     }
+
 
     @FXML
     private void validCommand() {
@@ -61,9 +71,9 @@ public class DishController {
             alert.showAndWait();
             return;
         }
+        Integer selectedTable = newStatusComboBox.getSelectionModel().getSelectedItem();
 
-        int table = 1;
-        onCreateOrderClick(bill, table);
+        onCreateOrderClick(bill, selectedTable);
         Alert confirmation = new Alert(Alert.AlertType.INFORMATION, "Commande validée !");
         confirmation.showAndWait();
     }
