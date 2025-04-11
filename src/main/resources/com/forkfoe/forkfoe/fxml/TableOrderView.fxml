@@ -12,7 +12,7 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Button fx:id="showOrdersButton" onAction="#onShowOrdersClick" text="Afficher les commandes" />
+    <Button fx:id="changeSortButton" text="Changer le mode de tri" onAction="#handleChangeSortMode" />
 
     <TableView fx:id="ordersTableView" prefHeight="200" prefWidth="400">
         <columns>
@@ -20,6 +20,7 @@
             <TableColumn fx:id="billColumn" text="Montant" prefWidth="100"/>
             <TableColumn fx:id="statusColumn" text="Statut" prefWidth="100"/>
             <TableColumn fx:id="tableIdColumn" text="Table" prefWidth="100"/>
+            <TableColumn fx:id="reservationColumn" text="reservation" prefWidth="100"/>
         </columns>
     </TableView>
 

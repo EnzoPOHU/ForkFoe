@@ -1,12 +1,14 @@
 package com.forkfoe.forkfoe.controller;
 
 import com.forkfoe.forkfoe.model.Dish;
+import com.forkfoe.forkfoe.model.Table;
 import com.forkfoe.forkfoe.repository.DishRepository;
 import com.forkfoe.forkfoe.model.TableOrder;
 import com.forkfoe.forkfoe.repository.TableOrderRepository;
 import com.forkfoe.forkfoe.util.ServiceTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import com.forkfoe.forkfoe.repository.TableRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -14,7 +16,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,16 +24,52 @@ public class DishController {
     @FXML
     private VBox dishContainer;
 
+    @FXML
+    private ComboBox<Integer> newStatusComboBox;
+
     private Map<CheckBox, Spinner<Integer>> dishMap = new HashMap<>();
 
     private final List<Dish> dishes = DishRepository.getDish();
+    @FXML
+    private TextField ingredientSearch;
+
+
+    public Label totalLabel;
 
     @FXML
     public void initialize() {
-        for (Dish dish : dishes) {
-            addDishToView(dish);
+        List<Table> tables = TableRepository.getTables();
+        for (Table table : tables) {
+            newStatusComboBox.getItems().add(table.number());
         }
+      
+        List<Dish> dishes = DishRepository.fetchDishs()
+                .stream()
+                .sorted((d1, d2) -> Integer.compare(d2.getPrice(), d1.getPrice()))
+                .toList();
+
+        dishes.forEach(this::addDishToView);
+
+        totalCard();
+        refreshDishList();
     }
+
+
+    @FXML
+    private void onIngredientSearch() {
+        String query = ingredientSearch.getText();
+        filterDishesByIngredient(query);
+    }
+
+
+
+
+    private void filterDishesByIngredient(String ingredient) {
+        dishContainer.getChildren().clear();
+        String lowerIngredient = ingredient.toLowerCase();
+        dishes.stream().filter(dish -> dish.description.toLowerCase().contains(lowerIngredient)).forEach(this::addDishToView);
+    }
+
 
     @FXML
     private void validCommand() {
@@ -64,9 +101,9 @@ public class DishController {
             alert.showAndWait();
             return;
         }
+        Integer selectedTable = newStatusComboBox.getSelectionModel().getSelectedItem();
 
-        int table = 1;
-        onCreateOrderClick(bill, table);
+        onCreateOrderClick(bill, selectedTable);
         Alert confirmation = new Alert(Alert.AlertType.INFORMATION, "Commande validée !");
         confirmation.showAndWait();
     }
@@ -88,7 +125,6 @@ public class DishController {
 
             refreshDishList();
         } catch (Exception e) {
-            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ouverture du formulaire : " + e.getMessage());
             alert.showAndWait();
         }
@@ -101,11 +137,14 @@ public class DishController {
     public void refreshDishList() {
         dishContainer.getChildren().clear();
 
-        List<Dish> updatedDishes = DishRepository.getDish();
+        List<Dish> updatedDishes = DishRepository.getDish()
+                .stream()
+                .sorted((d1, d2) -> Integer.compare(d2.getPrice(), d1.getPrice()))
+                .toList();
 
-        for (Dish dish : updatedDishes) {
-            addDishToView(dish);
-        }
+        updatedDishes.forEach(this::addDishToView);
+
+        totalCard();
     }
 
     /**
@@ -120,30 +159,21 @@ public class DishController {
         spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
         spinner.setDisable(true);
 
-        checkBox.setOnAction(e -> spinner.setDisable(!checkBox.isSelected()));
+        checkBox.setOnAction(_ -> spinner.setDisable(!checkBox.isSelected()));
 
-        viewButton.setOnAction(e -> openDetailPopup(dish));
+        viewButton.setOnAction(_ -> openDetailPopup(dish));
 
-        delButton.setOnAction(e -> {
-            String imgPath = dish.getImagePath();
-            if (imgPath != null && !imgPath.isEmpty()) {
-                try {
-                    File imageFile = new File("data/" + new File(imgPath).getName());
-                    if (imageFile.exists()) {
-                        boolean deleted = imageFile.delete();
-                        if (!deleted) {
-                            System.err.println("Impossible de supprimer l'image : " + imageFile.getPath());
-                        }
-                    }
-                } catch (Exception ex) {
-                    System.err.println("Erreur lors de la suppression de l'image : " + ex.getMessage());
-                }
-            }
+        delButton.setOnAction(_ -> {
 
             DishRepository.removeDish(dish);
 
             dishContainer.getChildren().removeIf(node -> ((HBox) node).getChildren().contains(delButton));
+            totalCard();
+
         });
+
+        totalCard();
+
 
         HBox dishRow = new HBox(10, checkBox, spinner, viewButton, delButton);
         dishContainer.getChildren().add(dishRow);
@@ -184,4 +214,16 @@ public class DishController {
             System.err.println("Erreur : Veuillez entrer des valeurs valides.");
         }
     }
+
+    @FXML
+
+    private void totalCard() {
+        double total = DishRepository.getDish()
+                .stream()
+                .mapToDouble(Dish::getPrice)
+                .sum();
+
+        totalLabel.setText("Le total de la carte est de : " + String.format("%.2f", total) + " €");
+    }
+
 }

@@ -3,36 +3,31 @@
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.forkfoe.forkfoe.controller.EmployeeController">
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.forkfoe.forkfoe.controller.EmployeeController">
 
     <center>
-        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-            <TableView fx:id="employeesTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                       prefHeight="400.0" prefWidth="281.0">
+        <HBox maxHeight="Infinity" maxWidth="Infinity">
+            <TableView fx:id="employeesTable" prefHeight="400.0" prefWidth="360.0">
                 <columns>
-                    <TableColumn fx:id="employeesName" editable="false" prefWidth="75.0" resizable="false" text="Nom"/>
-                    <TableColumn fx:id="employeesRole" editable="false" prefWidth="75.0" resizable="false" text="Rôle"/>
-                    <TableColumn fx:id="employeesWorkingTime" editable="false" prefWidth="100.0" resizable="false"
-                                 text="Temps de travail"/>
+                    <TableColumn fx:id="employeesName" text="Nom" prefWidth="75.0"/>
+                    <TableColumn fx:id="employeesRole" text="Rôle" prefWidth="75.0"/>
+                    <TableColumn fx:id="employeesWorkingTime" text="Temps de travail" prefWidth="100.0"/>
+                    <TableColumn fx:id="employeesAge" text="Age" prefWidth="75.0"/>
                 </columns>
             </TableView>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+
+            <VBox maxWidth="Infinity">
                 <padding>
-                    <Insets bottom="12.0" left="12.0" right="12.0" top="12.0"/>
+                    <Insets top="12.0" right="12.0" bottom="12.0" left="12.0"/>
                 </padding>
-                <TextField fx:id="newEmployeeName" onKeyTyped="#onTypingEmployeeName" promptText="Nom"/>
-                <ComboBox fx:id="newEmployeeRole" maxWidth="1.7976931348623157E308"
-                          onAction="#onSettingEmployeeRole" promptText="Select Role">
+
+                <TextField fx:id="newEmployeeName" promptText="Nom" onKeyTyped="#onTypingEmployeeName"/>
+                <ComboBox fx:id="newEmployeeRole" promptText="Select Role" onAction="#onSettingEmployeeRole">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:value="Serveur"/>
@@ -46,19 +41,30 @@
                         </FXCollections>
                     </items>
                 </ComboBox>
-                <TextField fx:id="newEmployeeWorkingTime" onKeyTyped="#onTypingEmployeeWorkingTime"
-                           promptText="Temps de travail"/>
-                <Button fx:id="addEmployeeButton" contentDisplay="TOP" disable="true"
-                        maxWidth="1.7976931348623157E308" onAction="#onAddEmployee" styleClass="commander-button"
-                        text="Ajouter un employé"/>
+                <TextField fx:id="newEmployeeWorkingTime" promptText="Temps de travail" onKeyTyped="#onTypingEmployeeWorkingTime"/>
+                <TextField fx:id="newEmployeeAge" promptText="Âge" onKeyTyped="#onTypingEmployeeAge"/>
+
+                <Button fx:id="addEmployeeButton" text="Ajouter un employé" disable="true"
+                        maxWidth="Infinity" onAction="#onAddEmployee"/>
                 <Separator prefWidth="200.0">
                     <VBox.margin>
-                        <Insets bottom="12.0" top="12.0"/>
+                        <Insets top="12.0" bottom="12.0"/>
                     </VBox.margin>
                 </Separator>
-                <Button fx:id="removeEmployeeButton" contentDisplay="TOP" disable="true"
-                        maxWidth="1.7976931348623157E308" onAction="#onRemoveEmployee" styleClass="commander-button"
-                        text="Supprimer un employé"/>
+                <Button fx:id="removeEmployeeButton" text="Supprimer un employé" disable="true"
+                        maxWidth="Infinity" onAction="#onRemoveEmployee"/>
+
+                <!-- Boutons de tri par tranche d'âge -->
+                <Separator prefWidth="200.0">
+                    <VBox.margin>
+                        <Insets top="12.0" bottom="12.0"/>
+                    </VBox.margin>
+                </Separator>
+
+                <Button text="Afficher -30 ans" maxWidth="Infinity" onAction="#onFilterUnder30"/>
+                <Button text="Afficher 45-60 ans" maxWidth="Infinity" onAction="#onFilterBetween45And60"/>
+                <Button text="Afficher +60 ans" maxWidth="Infinity" onAction="#onFilterOver60"/>
+                <Button text="Afficher tout le monde" maxWidth="Infinity" onAction="#onShowAll"/>
             </VBox>
         </HBox>
     </center>

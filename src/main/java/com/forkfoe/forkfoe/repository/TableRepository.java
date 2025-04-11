@@ -28,6 +28,22 @@ public class TableRepository {
         }
     }
 
+    public static List<Table> fetchTablesFromDatabasePublic() {
+        try {
+            List<Object[]> rows = SQLiteWrapper.execute("SELECT number, seat, reservationName FROM restaurantTable");
+            tables = rows.stream()
+                    .map(row -> new Table(
+                            (Integer) row[0],
+                            (Integer) row[1],
+                            row[2] != null ? (String) row[2] : "Aucune réservation"))
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            System.err.println("Erreur lors du chargement des tables depuis la base de données : " + e.getMessage());
+        }
+        return tables;
+    }
+
     public static List<Table> getTables() {
         return tables;
     }

@@ -1,5 +1,6 @@
 package com.forkfoe.forkfoe.controller;
 
+import com.forkfoe.forkfoe.model.Table;
 import com.forkfoe.forkfoe.repository.EmployeeRepository;
 import com.forkfoe.forkfoe.model.Employee;
 import javafx.fxml.FXML;
@@ -22,6 +23,9 @@ public class EmployeeController {
     private TableColumn<Employee, String> employeesWorkingTime;
 
     @FXML
+    private TableColumn<Employee, String> employeesAge;
+
+    @FXML
     private TextField newEmployeeName;
 
     @FXML
@@ -29,6 +33,9 @@ public class EmployeeController {
 
     @FXML
     private TextField newEmployeeWorkingTime;
+
+    @FXML
+    private TextField newEmployeeAge;
 
     @FXML
     private Button addEmployeeButton;
@@ -43,38 +50,47 @@ public class EmployeeController {
         employeesName.setCellValueFactory(new PropertyValueFactory<>("name"));
         employeesRole.setCellValueFactory(new PropertyValueFactory<>("role"));
         employeesWorkingTime.setCellValueFactory(new PropertyValueFactory<>("workingTime"));
+        employeesAge.setCellValueFactory(new PropertyValueFactory<>("age"));
         employeesList = FXCollections.observableArrayList();
-        employeesList.addAll(EmployeeRepository.getEmployees());
+        var fetchedEmployees = EmployeeRepository.getEmployees();
+
+        if (fetchedEmployees != null) {
+            employeesList.addAll(fetchedEmployees);
+        } else {
+            System.err.println("Erreur: La liste des employés est vide ou nulle.");
+        }
+
         employeesTable.setItems(employeesList);
+
         employeesTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             removeEmployeeButton.setDisable(newValue == null);
         });
     }
 
-    /**
-     * Effect of the add employee button
-     */
+
     @FXML
     protected void onAddEmployee() {
         String name = newEmployeeName.getText();
-        String role = newEmployeeRole.getValue().toString();
+        String role = newEmployeeRole.getValue();
         String workingTime = newEmployeeWorkingTime.getText();
+        String ageText = newEmployeeAge.getText();
+
         try {
-            Employee newEmployee = new Employee(name, role, Integer.parseInt(workingTime));
+            int workingTimeInt = Integer.parseInt(workingTime);
+            int age = Integer.parseInt(ageText);
+            Employee newEmployee = new Employee(name, age, role, workingTimeInt);
             employeesList.add(newEmployee);
             EmployeeRepository.addEmployee(newEmployee);
             newEmployeeName.clear();
             newEmployeeWorkingTime.clear();
+            newEmployeeAge.clear();
             employeesTable.refresh();
             employeesTable.requestFocus();
-        } catch (Exception _) {
-            System.err.println("Failed to add a valid employee");
+        } catch (Exception e) {
+            System.err.println("Erreur lors de l'ajout d'un employé : " + e.getMessage());
         }
     }
 
-    /**
-     * Effect of the remove employee button
-     */
     @FXML
     protected void onRemoveEmployee() {
         int selectedEmployeeIndex = employeesTable.getSelectionModel().getSelectedIndex();
@@ -86,30 +102,20 @@ public class EmployeeController {
         }
     }
 
-    /**
-     * Update the add employee button according to the last form validation
-     */
     private void validateAddEmployeeForm() {
-        addEmployeeButton.setDisable(newEmployeeName.getText().isBlank()
-                || newEmployeeRole.getValue() == null
-                || newEmployeeWorkingTime.getText().isBlank());
+        addEmployeeButton.setDisable(
+                newEmployeeName.getText().isBlank()
+                        || newEmployeeRole.getValue() == null
+                        || newEmployeeWorkingTime.getText().isBlank()
+                        || newEmployeeAge.getText().isBlank()
+        );
     }
 
-    /**
-     * Set employee name and validate the form fields
-     */
     @FXML protected void onTypingEmployeeName() { validateAddEmployeeForm(); }
 
-    /**
-     * Set employee role and validate the form fields
-     */
     @FXML protected void onSettingEmployeeRole() { validateAddEmployeeForm(); }
 
-    /**
-     * This text field only accept numbers to set employee working time
-     */
-    @FXML
-    protected void onTypingEmployeeWorkingTime() {
+    @FXML protected void onTypingEmployeeWorkingTime() {
         try {
             int workingTime = Integer.parseInt(newEmployeeWorkingTime.getText());
             if (workingTime > 0 && workingTime < 24) {
@@ -118,5 +124,36 @@ public class EmployeeController {
         } catch (NumberFormatException e) {
             newEmployeeWorkingTime.clear();
         }
+    }
+
+    @FXML protected void onTypingEmployeeAge() {
+        try {
+            int age = Integer.parseInt(newEmployeeAge.getText());
+            if (age > 0 && age < 120) {
+                validateAddEmployeeForm();
+            } else newEmployeeAge.clear();
+        } catch (NumberFormatException e) {
+            newEmployeeAge.clear();
+        }
+    }
+
+    @FXML
+    protected void onFilterUnder30() {
+        employeesTable.setItems(employeesList.filtered(e -> e.getAge() < 30));
+    }
+
+    @FXML
+    protected void onFilterBetween45And60() {
+        employeesTable.setItems(employeesList.filtered(e -> e.getAge() >= 45 && e.getAge() <= 60));
+    }
+
+    @FXML
+    protected void onFilterOver60() {
+        employeesTable.setItems(employeesList.filtered(e -> e.getAge() > 60));
+    }
+
+    @FXML
+    protected void onShowAll() {
+        employeesTable.setItems(employeesList);
     }
 }
