@@ -42,3 +42,4 @@ database.db
 /data/
 .idea/dataSources.xml
 .idea/uiDesigner.xml
+/out/
