@@ -58,14 +58,7 @@ public class DishController {
                 if (selectedDish != null) {
                     int price = selectedDish.getPrice();
                     bill += price * quantity;
-                    commande.append("- ")
-                            .append(dishName)
-                            .append(" x")
-                            .append(quantity)
-                            .append(" (")
-                            .append(price)
-                            .append("€)")
-                            .append("\n");
+commande.append("- " + dishName + " x" + quantity +" (" + price + "€)" + "\n");
                 }
             }
         }
