@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainBorderPane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.forkfoe.forkfoe.controller.MainController" stylesheets="@../style/styles.css">
+<BorderPane fx:id="mainBorderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../style/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.forkfoe.forkfoe.controller.MainController">
 
     <top>
-        <HBox alignment="CENTER_LEFT" prefHeight="60" spacing="20" styleClass="navbar">
+        <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="60" spacing="20" styleClass="navbar">
             <Button onAction="#switchScene" styleClass="nav-button" text="Table" userData="/com/forkfoe/forkfoe/fxml/TableManagerView.fxml" />
             <Button onAction="#switchScene" styleClass="nav-button" text="Plat" userData="/com/forkfoe/forkfoe/fxml/DishView.fxml" />
             <Button onAction="#switchScene" styleClass="nav-button" text="Commande" userData="/com/forkfoe/forkfoe/fxml/TableOrderView.fxml" />
             <Button onAction="#switchScene" styleClass="nav-button" text="Employé" userData="/com/forkfoe/forkfoe/fxml/EmployeeView.fxml" />
+            <VBox maxWidth="1.7976931348623157E308">
+                <Label fx:id="serviceTimer" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="25:00" textAlignment="CENTER" textFill="WHITE">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <HBox maxWidth="1.7976931348623157E308">
+                    <Button fx:id="startButton" mnemonicParsing="false" onAction="#onStartButtonClicked" text="Démarrer" />
+                    <Button fx:id="stopButton" disable="true" mnemonicParsing="false" onAction="#onPauseButtonClicked" text="Pause" />
+                    <Button fx:id="resetButton" disable="true" mnemonicParsing="false" onAction="#onResetButtonClicked" text="Réinitialiser" />
+                </HBox>
+            </VBox>
         </HBox>
     </top>
 
