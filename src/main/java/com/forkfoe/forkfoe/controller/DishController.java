@@ -1,9 +1,11 @@
 package com.forkfoe.forkfoe.controller;
 
 import com.forkfoe.forkfoe.model.Dish;
+import com.forkfoe.forkfoe.model.Table;
 import com.forkfoe.forkfoe.repository.DishRepository;
 import com.forkfoe.forkfoe.model.TableOrder;
 import com.forkfoe.forkfoe.repository.TableOrderRepository;
+import com.forkfoe.forkfoe.repository.TableRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -19,7 +21,10 @@ public class DishController {
     @FXML
     private VBox dishContainer;
 
-    private final Map<CheckBox, Spinner<Integer>> dishMap = new HashMap<>();
+    @FXML
+    private ComboBox<Integer> newStatusComboBox;
+
+    private Map<CheckBox, Spinner<Integer>> dishMap = new HashMap<>();
 
     private final List<Dish> dishes = DishRepository.getDish();
     @FXML
@@ -30,6 +35,11 @@ public class DishController {
 
     @FXML
     public void initialize() {
+        List<Table> tables = TableRepository.getTables();
+        for (Table table : tables) {
+            newStatusComboBox.getItems().add(table.number());
+        }
+      
         List<Dish> dishes = DishRepository.fetchDishs()
                 .stream()
                 .sorted((d1, d2) -> Integer.compare(d2.getPrice(), d1.getPrice()))
@@ -78,7 +88,7 @@ public class DishController {
                 if (selectedDish != null) {
                     int price = selectedDish.getPrice();
                     bill += price * quantity;
-commande.append("- " + dishName + " x" + quantity +" (" + price + "€)" + "\n");
+                    commande.append("- " + dishName + " x" + quantity +" (" + price + "€)" + "\n");
                 }
             }
         }
@@ -88,9 +98,9 @@ commande.append("- " + dishName + " x" + quantity +" (" + price + "€)" + "\n")
             alert.showAndWait();
             return;
         }
+        Integer selectedTable = newStatusComboBox.getSelectionModel().getSelectedItem();
 
-        int table = 1;
-        onCreateOrderClick(bill, table);
+        onCreateOrderClick(bill, selectedTable);
         Alert confirmation = new Alert(Alert.AlertType.INFORMATION, "Commande validée !");
         confirmation.showAndWait();
     }
