@@ -58,8 +58,6 @@ public class DishController {
     }
 
 
-
-
     @FXML
     private void validCommand() {
         StringBuilder commande = new StringBuilder("Commande envoyée :\n");
