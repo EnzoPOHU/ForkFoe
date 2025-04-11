@@ -39,25 +39,25 @@ public class DishController {
 
         totalCard();
         refreshDishList();
-
-        ingredientSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            filterDishesByIngredient(newValue);
-        });
     }
+
+
+    @FXML
+    private void onIngredientSearch() {
+        String query = ingredientSearch.getText();
+        filterDishesByIngredient(query);
+    }
+
 
 
 
     private void filterDishesByIngredient(String ingredient) {
         dishContainer.getChildren().clear();
-
         String lowerIngredient = ingredient.toLowerCase();
-
-        for (Dish dish : dishes) {
-            if (dish.description.toLowerCase().contains(lowerIngredient)) {
-                addDishToView(dish);
-            }
-        }
+        dishes.stream().filter(dish -> dish.description.toLowerCase().contains(lowerIngredient)).forEach(this::addDishToView);
     }
+
+
 
 
     @FXML
