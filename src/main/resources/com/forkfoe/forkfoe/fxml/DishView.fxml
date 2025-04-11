@@ -14,7 +14,7 @@
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
             </padding>
         </VBox>
-    </center>
+        </center>
 
     <bottom>
         <HBox alignment="CENTER" spacing="20">
@@ -23,6 +23,9 @@
             </padding>
             <HBox alignment="CENTER_LEFT">
                 <Button text="Ajouter un plat" styleClass="ajouter-button" onAction="#openAddDishPopup"/>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Label fx:id="totalLabel" text="Le total de la carte est de : " />
             </HBox>
             <Pane HBox.hgrow="ALWAYS"/>
             <HBox alignment="CENTER_RIGHT">

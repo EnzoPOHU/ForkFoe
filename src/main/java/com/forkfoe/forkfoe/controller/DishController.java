@@ -10,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,15 +19,23 @@ public class DishController {
     @FXML
     private VBox dishContainer;
 
-    private Map<CheckBox, Spinner<Integer>> dishMap = new HashMap<>();
+    private final Map<CheckBox, Spinner<Integer>> dishMap = new HashMap<>();
 
     private final List<Dish> dishes = DishRepository.getDish();
 
+    public Label totalLabel;
+
     @FXML
     public void initialize() {
-        for (Dish dish : dishes) {
-            addDishToView(dish);
-        }
+        List<Dish> dishes = DishRepository.fetchDishs()
+                .stream()
+                .sorted((d1, d2) -> Integer.compare(d2.getPrice(), d1.getPrice()))
+                .toList();
+
+        dishes.forEach(this::addDishToView);
+
+        totalCard();
+        refreshDishList();
     }
 
     @FXML
@@ -51,7 +58,7 @@ public class DishController {
                 if (selectedDish != null) {
                     int price = selectedDish.getPrice();
                     bill += price * quantity;
-                    commande.append("- " + dishName + " x" + quantity +" (" + price + "€)" + "\n");
+commande.append("- " + dishName + " x" + quantity +" (" + price + "€)" + "\n");
                 }
             }
         }
@@ -85,7 +92,6 @@ public class DishController {
 
             refreshDishList();
         } catch (Exception e) {
-            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ouverture du formulaire : " + e.getMessage());
             alert.showAndWait();
         }
@@ -98,11 +104,14 @@ public class DishController {
     public void refreshDishList() {
         dishContainer.getChildren().clear();
 
-        List<Dish> updatedDishes = DishRepository.getDish();
+        List<Dish> updatedDishes = DishRepository.getDish()
+                .stream()
+                .sorted((d1, d2) -> Integer.compare(d2.getPrice(), d1.getPrice()))
+                .toList();
 
-        for (Dish dish : updatedDishes) {
-            addDishToView(dish);
-        }
+        updatedDishes.forEach(this::addDishToView);
+
+        totalCard();
     }
 
     /**
@@ -117,30 +126,21 @@ public class DishController {
         spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
         spinner.setDisable(true);
 
-        checkBox.setOnAction(e -> spinner.setDisable(!checkBox.isSelected()));
+        checkBox.setOnAction(_ -> spinner.setDisable(!checkBox.isSelected()));
 
-        viewButton.setOnAction(e -> openDetailPopup(dish));
+        viewButton.setOnAction(_ -> openDetailPopup(dish));
 
-        delButton.setOnAction(e -> {
-            String imgPath = dish.getImagePath();
-            if (imgPath != null && !imgPath.isEmpty()) {
-                try {
-                    File imageFile = new File("data/" + new File(imgPath).getName());
-                    if (imageFile.exists()) {
-                        boolean deleted = imageFile.delete();
-                        if (!deleted) {
-                            System.err.println("Impossible de supprimer l'image : " + imageFile.getPath());
-                        }
-                    }
-                } catch (Exception ex) {
-                    System.err.println("Erreur lors de la suppression de l'image : " + ex.getMessage());
-                }
-            }
+        delButton.setOnAction(_ -> {
 
             DishRepository.removeDish(dish);
 
             dishContainer.getChildren().removeIf(node -> ((HBox) node).getChildren().contains(delButton));
+            totalCard();
+
         });
+
+        totalCard();
+
 
         HBox dishRow = new HBox(10, checkBox, spinner, viewButton, delButton);
         dishContainer.getChildren().add(dishRow);
@@ -181,4 +181,16 @@ public class DishController {
             System.err.println("Erreur : Veuillez entrer des valeurs valides.");
         }
     }
+
+    @FXML
+
+    private void totalCard() {
+        double total = DishRepository.getDish()
+                .stream()
+                .mapToDouble(Dish::getPrice)
+                .sum();
+
+        totalLabel.setText("Le total de la carte est de : " + String.format("%.2f", total) + " €");
+    }
+
 }

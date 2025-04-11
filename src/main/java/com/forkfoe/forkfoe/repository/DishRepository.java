@@ -18,7 +18,7 @@ public class DishRepository {
     }
 
     /**
-     * Fetch all dishes from the database
+     * Fetch all dishes from the database in descending order by price
      */
     public static List<Dish> fetchDishs() {
         try {
@@ -29,15 +29,16 @@ public class DishRepository {
                         int price = (Integer) row[3];
                         String imgPath = (String) row[4];
 
-                        Dish dish = new Dish(name, description, price, imgPath);
-                        return dish;
+                        return new Dish(name, description, price, imgPath);
                     })
+                    .sorted((d1, d2) -> Integer.compare(d2.getPrice(), d1.getPrice()))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             System.err.println("Erreur lors de la récupération des plats depuis la base de données : " + e.getMessage());
             return List.of();
         }
     }
+
 
     /*
      * Add a dish
