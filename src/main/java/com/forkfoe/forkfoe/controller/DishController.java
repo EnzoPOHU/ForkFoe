@@ -22,6 +22,9 @@ public class DishController {
     private final Map<CheckBox, Spinner<Integer>> dishMap = new HashMap<>();
 
     private final List<Dish> dishes = DishRepository.getDish();
+    @FXML
+    private TextField ingredientSearch;
+
 
     public Label totalLabel;
 
@@ -36,7 +39,26 @@ public class DishController {
 
         totalCard();
         refreshDishList();
+
+        ingredientSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterDishesByIngredient(newValue);
+        });
     }
+
+
+
+    private void filterDishesByIngredient(String ingredient) {
+        dishContainer.getChildren().clear();
+
+        String lowerIngredient = ingredient.toLowerCase();
+
+        for (Dish dish : dishes) {
+            if (dish.description.toLowerCase().contains(lowerIngredient)) {
+                addDishToView(dish);
+            }
+        }
+    }
+
 
     @FXML
     private void validCommand() {

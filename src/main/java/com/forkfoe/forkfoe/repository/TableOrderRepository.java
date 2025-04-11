@@ -24,9 +24,9 @@ public class TableOrderRepository {
             orders = SQLiteWrapper.execute("SELECT * FROM tableOrder").stream()
                     .map(row -> new TableOrder(
                             (Integer) row[0],
-                            (Integer) row[1],              // bill
-                            (String) row[2],               // status
-                            (Integer) row[3]               // table_id
+                            (Integer) row[1],
+                            (String) row[2],
+                            (Integer) row[3]
                     ))
                     .collect(Collectors.toList());
         } catch (Exception e) {
