@@ -22,6 +22,7 @@ public class ForkFoeApplication extends Application {
         "CREATE TABLE IF NOT EXISTS employee (" +
                 "id INTEGER PRIMARY KEY, " +
                 "name VARCHAR NOT NULL, " +
+                "age INTEGER NOT NULL, " +
                 "role VARCHAR NOT NULL, " +
                 "worked_time INTEGER NOT NULL)",
 

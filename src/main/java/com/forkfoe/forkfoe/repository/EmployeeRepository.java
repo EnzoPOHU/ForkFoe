@@ -3,7 +3,7 @@ import com.forkfoe.forkfoe.util.SQLiteWrapper;
 import com.forkfoe.forkfoe.model.Employee;
 
 import java.util.*;
-import java.util.stream.*;
+import java.util.stream.Collectors;
 
 public class EmployeeRepository {
     static { new EmployeeRepository(); }
@@ -29,7 +29,7 @@ public class EmployeeRepository {
     public static List<Employee> fetchEmployees() {
         try {
             employees = SQLiteWrapper.execute("SELECT * FROM employee").stream()
-                    .map(row -> new Employee((Integer) row[0], (String) row[1], (String) row[2], (Integer) row[3]))
+                    .map(row -> new Employee((Integer) row[0], (String) row[1], (Integer) row[2], (String) row[3], (Integer) row[4]))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             System.err.println("Failed to fetch employees from database: " + e.getMessage());
